@@ -42,6 +42,7 @@ var messageSchema = mongoose.Schema({
 
 var Message = mongoose.model('Message', messageSchema);
 // tests
+// and again
 var messageFromDatabase;
 
 Message.remove({}).exec(function(err) {
