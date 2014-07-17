@@ -1,18 +1,22 @@
 {
-  "name": "NovCraft",
-  "version": "0.0.0",
-  "description": "MEAN Stack application",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Dzhenko Penev",
-  "license": "MIT",
-  "dependencies": {
-    "body-parser": "^1.4.3",
-    "express": "^4.6.1",
-    "jade": "^1.4.1",
-    "mongoose": "^3.8.13",
-    "stylus": "^0.47.1"
-  }
+    "name": "NovCraft",
+    "version": "0.0.0",
+    "description": "MEAN Stack application",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "engines": {
+        "node": "0.10.x",
+        "npm": "1.4.x"
+    },
+    "author": "Dzhenko Penev",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.4.3",
+        "express": "^4.6.1",
+        "jade": "^1.4.1",
+        "mongoose": "^3.8.13",
+        "stylus": "^0.47.1"
+    }
 }
