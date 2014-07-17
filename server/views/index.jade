@@ -1,6 +1,18 @@
 extends includes/layout
 
 block main-content
-    h2 Hi from index
-    div(ng-view)
-    h3= message
+    header.nav.navbar-inverse.navbar-fixed-top
+        .container
+            .navbar-header
+                a.navbar-brand(href="#/") NovCraft
+            .navbar-collapse.collapse
+                ul.nav.navbar-nav
+                    li
+                        a(href="#/") Home
+
+    section.container
+        div(ng-view)
+
+    footer
+        p.text-center
+            | &copy NovCraft MEAN Application 2014
