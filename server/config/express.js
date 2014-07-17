@@ -13,7 +13,7 @@ module.exports = function(app, config) {
 
     app.use(cookieParser());
     app.use(bodyParser());
-    app.use(session());
+    app.use(session({secret: 'popcorn'}));
     app.use(stylus.middleware({
         src: config.rootPath + '/public',
         compile: function (str, path) {

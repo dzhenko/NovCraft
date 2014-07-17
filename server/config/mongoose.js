@@ -54,7 +54,7 @@ module.exports= function(config) {
                 return;
             }
 
-            if(user) {
+            if (user) {
                 return done(null, user);
             }
             else {
@@ -76,7 +76,7 @@ module.exports= function(config) {
                 return;
             }
 
-            if(user) {
+            if (user) {
                 return done(null, user);
             }
             else {
