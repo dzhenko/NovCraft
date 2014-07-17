@@ -1,35 +1,16 @@
 'use strict';
 
-var passport = require('passport');
+var auth = require('./auth');
 
 module.exports = function(app) {
     app.get('/partials/:partialArea/:partialName', function (req, res) {
         res.render('../../public/app/' + req.params.partialArea+ '/' + req.params.partialName);
     });
 
-    app.post('/login', function(req, res, next) {
-        var auth = passport.authenticate('local', function(err, user) {
-            if (err) {
-                return next(err);
-            }
-
-            if (!user) {
-                res.send({success: false});
-            }
-
-            req.logIn(user, function(err){
-                if (err) {
-                    return next(err);
-                }
-
-                res.send({success: true, user: user});
-            });
-        });
-
-        auth(req, res, next);
-    });
+    app.post('/login', auth.login);
+    app.post('/logout', auth.logout);
 
     app.get('*', function (req, res) {
-        res.render('index');
+        res.render('index', {currentUser: req.user});
     });
 };

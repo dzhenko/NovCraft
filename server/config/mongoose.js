@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
     passport = require('passport'),
+    crypto = require('crypto'),
     LocalPassport = require('passport-local');
 
 module.exports= function(config) {
@@ -29,6 +30,12 @@ module.exports= function(config) {
         hashPass: String
     });
 
+    userSchema.method({
+        authenticate: function(password) {
+            return (generateHashedPassword(this.salt, password) === this.hashPass);
+        }
+    });
+
     var User = mongoose.model('User', userSchema);
 
     User.find({}).exec(function(err, collection){
@@ -38,10 +45,20 @@ module.exports= function(config) {
         }
 
         if (collection.length === 0) {
-            User.create({username: 'user1Name', firstName:'user1FirstName', lastName: 'user1LastName'});
-            User.create({username: 'user2Name', firstName:'user2FirstName', lastName: 'user2LastName'});
-            User.create({username: 'user3Name', firstName:'user3FirstName', lastName: 'user3LastName'});
-            User.create({username: 'user4Name', firstName:'user4FirstName', lastName: 'user4LastName'});
+            var salt,
+                hashedPwd;
+
+            salt = generateSalt();
+            hashedPwd = generateHashedPassword(salt, 'name1');
+            User.create({username: 'name1', firstName:'user1FirstName', lastName: 'user1LastName', salt:salt, hashPass: hashedPwd});
+
+            salt = generateSalt();
+            hashedPwd = generateHashedPassword(salt, 'name2');
+            User.create({username: 'name2', firstName:'user2FirstName', lastName: 'user2LastName', salt:salt, hashPass: hashedPwd});
+
+            salt = generateSalt();
+            hashedPwd = generateHashedPassword(salt, 'name3');
+            User.create({username: 'name3', firstName:'user3FirstName', lastName: 'user3LastName', salt:salt, hashPass: hashedPwd});
 
             console.log('Users collection was empty - added 4 test users');
         }
@@ -85,3 +102,12 @@ module.exports= function(config) {
         })
     })
 };
+
+function generateSalt() {
+    return crypto.randomBytes(128).toString('base64');
+}
+
+function generateHashedPassword(salt, pwd) {
+    var hmac = crypto.createHmac('sha1', salt);
+    return hmac.update(pwd).digest('hex');
+}
