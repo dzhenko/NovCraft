@@ -1,3 +1,5 @@
+'use strict';
+
 app.factory('notifier', function(toastr) {
     return {
         success: function(msg) {

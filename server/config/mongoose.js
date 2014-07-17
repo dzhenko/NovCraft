@@ -1,9 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    passport = require('passport'),
-    crypto = require('crypto'),
-    LocalPassport = require('passport-local');
+    crypto = require('crypto');
 
 module.exports= function(config) {
     mongoose.connect(config.db);
@@ -27,7 +25,8 @@ module.exports= function(config) {
         firstName: String,
         lastName: String,
         salt: String,
-        hashPass: String
+        hashPass: String,
+        roles: [String]
     });
 
     userSchema.method({
@@ -50,11 +49,11 @@ module.exports= function(config) {
 
             salt = generateSalt();
             hashedPwd = generateHashedPassword(salt, 'name1');
-            User.create({username: 'name1', firstName:'user1FirstName', lastName: 'user1LastName', salt:salt, hashPass: hashedPwd});
+            User.create({username: 'name1', firstName:'user1FirstName', lastName: 'user1LastName', salt:salt, hashPass: hashedPwd, roles:['admin']});
 
             salt = generateSalt();
             hashedPwd = generateHashedPassword(salt, 'name2');
-            User.create({username: 'name2', firstName:'user2FirstName', lastName: 'user2LastName', salt:salt, hashPass: hashedPwd});
+            User.create({username: 'name2', firstName:'user2FirstName', lastName: 'user2LastName', salt:salt, hashPass: hashedPwd, roles:['standard']});
 
             salt = generateSalt();
             hashedPwd = generateHashedPassword(salt, 'name3');
@@ -63,44 +62,6 @@ module.exports= function(config) {
             console.log('Users collection was empty - added 4 test users');
         }
     });
-
-    passport.use(new LocalPassport(function(username, password, done) {
-        User.findOne({ username: username }).exec(function(err, user){
-            if (err) {
-                console.log('Error loading user ' + err);
-                return;
-            }
-
-            if (user) {
-                return done(null, user);
-            }
-            else {
-                return done(null, false);
-            }
-        });
-    }));
-
-    passport.serializeUser(function(user, done){
-        if (user) {
-            return done(null, user._id);
-        }
-    });
-
-    passport.deserializeUser(function(id, done){
-        User.findOne({_id: id}).exec(function(err, user) {
-            if (err) {
-                console.log('Error loading user ' + err);
-                return;
-            }
-
-            if (user) {
-                return done(null, user);
-            }
-            else {
-                return done(null, false);
-            }
-        })
-    })
 };
 
 function generateSalt() {

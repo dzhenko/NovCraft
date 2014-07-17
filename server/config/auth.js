@@ -27,5 +27,25 @@ module.exports = {
     logout: function(req, res, next) {
         req.logout();
         res.end();
+    },
+    isAuthenticated: function(req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.status(403);
+            res.end();
+        }
+        else {
+            next();
+        }
+    },
+    isInRole: function(role) {
+        return function(req, res, next) {
+            if (req.isAuthenticated() && req.user.roles.indexOf(role) >= 0) {
+                next();
+            }
+            else {
+                res.status(403);
+                res.end();
+            }
+        }
     }
 };
