@@ -1,3 +1,5 @@
+'use strict';
+
 // only one app so name is app
 var app = angular.module('app', ['ngResource', 'ngRoute']);
 
