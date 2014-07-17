@@ -1,0 +1,5 @@
+div(ng-repeat="data in sampleData | orderBy:'id'| limitTo: 10")
+    .col-md-3
+        | {{ data.date | date:'MMM d' }}
+    .col-md-9
+        | {{ data.name }}
