@@ -9,11 +9,20 @@
     ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
         li.dropdown
             a.dropdown-toggle(href="", data-toggle="dropdown")
-                | {{ identity.currentUser.firstName + ' ' +  identity.currentUser.lastName }}
+                | {{ identity.currentUser.firstName }} {{ identity.currentUser.lastName }}
                 span.caret
             ul.dropdown-menu
+                li(ng-show="identity.isAuthenticated()")
+                    a(href="#/courses") Courses
+                li.divider
+                li(ng-show="identity.isAuthenticated()")
+                    a(href="#/profile") Profile
+                li(ng-show="identity.isAuthenticated()")
+                    a(href="#/settings") Settings
+                li.divider
                 li(ng-show="identity.currentUser.isAdmin()")
                     a(href="#/admin/users") Users
+                li.divider
                 li
-                    a(href="/" ng-click="logout()") Sighn Out
+                    a(href="#" ng-click="logout()") Sighn Out
 

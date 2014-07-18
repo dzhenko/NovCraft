@@ -9,6 +9,11 @@ app.config(function($routeProvider) {
             authenticate: function(auth) {
                 return auth.isAuthorizedForRole('admin');
             }
+        },
+        authenticated: {
+            authenticate: function(auth) {
+                return auth.isAuthenticated();
+            }
         }
     };
 
@@ -20,6 +25,24 @@ app.config(function($routeProvider) {
         .when('/signup', {
             templateUrl: '/partials/account/signup',
             controller: 'SignUpCtrl'
+        })
+        .when('/profile', {
+            templateUrl: '/partials/account/profile',
+            controller: 'ProfileCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/courses', {
+            templateUrl: '/partials/courses/courses-list',
+            controller: 'CoursesListCtrl'
+        })
+        .when('/courses/:id', {
+            templateUrl: '/partials/courses/course-details',
+            controller: 'CourseDetailsCtrl'
+        })
+        .when('/settings', {
+            templateUrl: '/partials/account/settings',
+            controller: 'SettingsCtrl',
+            resolve: routeUserChecks.authenticated
         })
         .when('/admin/users', {
             templateUrl: '/partials/admin/users-list',

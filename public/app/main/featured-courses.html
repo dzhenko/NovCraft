@@ -1,1 +1,1 @@
-<div ng-repeat="data in sampleData | filter: {show: true}">{{ data.name }}</div>
+<div ng-repeat="course in courses | filter: {show: true}"><a href="#/courses/{{ course._id }}">{{ course.name }}</a></div>

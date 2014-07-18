@@ -24,6 +24,23 @@ module.exports = {
             });
         })
     },
+    updateUser: function(req, res, next) {
+        if (req.user._id.toString() === req.body._id.toString() || req.user.roles.indexOf('admin') >= 0) {
+            var newUserData = req.body;
+            if (newUserData.password && newUserData.password.length > 5) {
+                newUserData.salt = encryption.generateSalt();
+                newUserData.hashPass = encryption.generateHashedPassword(newUserData.salt, newUserData.password);
+                newUserData.password = undefined;
+            }
+
+            User.update({_id: newUserData._id}, newUserData, function() {
+                res.end();
+            })
+        }
+        else {
+            req.send({reason: "You do not have permisions"});
+        }
+    },
     getAllUsers: function(req, res) {
         User.find({}).exec(function(err, collection) {
             if (err) {

@@ -1,5 +1,5 @@
-div(ng-repeat="data in sampleData | orderBy:'id'| limitTo: 10")
+div(ng-repeat="course in courses | orderBy:'id'| limitTo: 10")
     .col-md-3
-        | {{ data.date | date:'MMM d' }}
+        | {{ course.date | date }}
     .col-md-9
-        | {{ data.name }}
+        a(href="#/courses/{{ course._id }}") {{ course.name }}

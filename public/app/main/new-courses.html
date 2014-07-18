@@ -1,1 +1,1 @@
-<div ng-repeat="data in sampleData | orderBy:'id'| limitTo: 10"><div class="col-md-3">{{ data.date | date:'MMM d' }}</div><div class="col-md-9">{{ data.name }}</div></div>
+<div ng-repeat="course in courses | orderBy:'id'| limitTo: 10"><div class="col-md-3">{{ course.date | date }}</div><div class="col-md-9"><a href="#/courses/{{ course._id }}">{{ course.name }}</a></div></div>

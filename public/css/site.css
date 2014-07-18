@@ -13,7 +13,7 @@ body {
 .container .well .form-horizontal fieldset .pull-right button.btn.btn-primary {
   margin-right: 10px;
 }
-.form-group .col-md-4 .alert {
+.form-group .alert.alert-danger {
   margin-bottom: 0;
   padding: 5px;
 }

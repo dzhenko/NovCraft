@@ -2,7 +2,7 @@
 
 var passport = require('passport'),
     LocalPassport = require('passport-local'),
-User = require('mongoose').model('User');
+    User = require('mongoose').model('User');
 
 module.exports = function() {
     passport.use(new LocalPassport(function(username, password, done) {

@@ -1,9 +1,9 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    user = require('../models/User');
+    models = require('../models');
 
-module.exports= function(config) {
+module.exports = function(config) {
     mongoose.connect(config.db);
     var db = mongoose.connection;
 
@@ -20,5 +20,6 @@ module.exports= function(config) {
         console.log('Database error ' + err);
     });
 
-    user.seedInitialUsers();
+    models.user.seedInitialUsers();
+    models.course.seedInitialCourses();
 };
