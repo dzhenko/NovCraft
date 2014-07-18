@@ -4,8 +4,18 @@ body {
 .navbar-right .navbar-form input {
   margin-right: 10px;
 }
+.navbar-right .navbar-form a.btn {
+  margin-left: 10px;
+}
 .toast-top-right {
   top: 60px;
+}
+.container .well .form-horizontal fieldset .pull-right button.btn.btn-primary {
+  margin-right: 10px;
+}
+.form-group .col-md-4 .alert {
+  margin-bottom: 0;
+  padding: 5px;
 }
 footer {
   padding: 0 150px;
