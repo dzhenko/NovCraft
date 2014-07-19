@@ -1,30 +1,36 @@
 'use strict';
 
 var encryption = require('../utilities/encryption'),
-    User = require('mongoose').model('User');
+    mongoose = require('mongoose'),
+    User = mongoose.model('User'),
+    Resource = mongoose.model('Resource');
 
 module.exports = {
-    createUser: function(req, res, next) {
+    createUser: function (req, res, next) {
         var newUserData = req.body;
         newUserData.salt = encryption.generateSalt();
         newUserData.hashPass = encryption.generateHashedPassword(newUserData.salt, newUserData.password);
-        User.create(newUserData, function(err, user) {
+        newUserData.roles = []; // no cheats
+        newUserData.password = undefined; // no cheats
+        User.create(newUserData, function (err, user) {
             if (err) {
                 console.log('Failed to register new user ' + err);
                 return;
             }
 
-            req.logIn(user, function(err){
-                if (err) {
-                    res.status(400);
-                    return res.send({reason: err.toString()})
-                }
+            Resource.generateUserResources(user, function(err, resource) {
+                req.logIn(user, function (err) {
+                    if (err) {
+                        res.status(400);
+                        return res.send({reason: err.toString()})
+                    }
 
-                res.send(user);
+                    res.send(user);
+                });
             });
         })
     },
-    updateUser: function(req, res, next) {
+    updateUser: function (req, res, next) {
         if (req.user._id.toString() === req.body._id.toString() || req.user.roles.indexOf('admin') >= 0) {
             var newUserData = req.body;
             if (newUserData.password && newUserData.password.length > 5) {
@@ -33,16 +39,16 @@ module.exports = {
                 newUserData.password = undefined;
             }
 
-            User.update({_id: newUserData._id}, newUserData, function() {
+            User.update({_id: newUserData._id}, newUserData, function () {
                 res.end();
             })
         }
         else {
-            req.send({reason: "You do not have permisions"});
+            req.send({reason: "You do not have permissions"});
         }
     },
-    getAllUsers: function(req, res) {
-        User.find({}).exec(function(err, collection) {
+    getAllUsers: function (req, res) {
+        User.find({}).exec(function (err, collection) {
             if (err) {
                 console.log('Users could not be loaded ' + err);
             }

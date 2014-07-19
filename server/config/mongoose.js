@@ -3,7 +3,7 @@
 var mongoose = require('mongoose'),
     models = require('../models');
 
-module.exports = function(config) {
+module.exports = function (config) {
     mongoose.connect(config.db);
     var db = mongoose.connection;
 
@@ -20,6 +20,10 @@ module.exports = function(config) {
         console.log('Database error ' + err);
     });
 
-    models.user.seedInitialUsers();
-    models.course.seedInitialCourses();
+    // models.user.reSeedInitialUsers();
+    // TODO: Add admins manually
+    // TODO: Remove courses
+
+    // models.user.removeAll();
+    // models.resource.removeAll();
 };

@@ -1,0 +1,37 @@
+.container
+    .jumbotron
+        h1 Resources Overview
+    .divider
+    .row
+        .panel-primary.col-md-5.col-md-offset-1
+            .panel-heading.lead Minerals
+            .panel-body
+                .row
+                    .col-md-4 Ammout
+                    .col-md-8 {{ currentResources.minerals }}
+                .row
+                    .col-md-4 Mine speed
+                    .col-md-8 {{ currentResources.growRate[0] }}
+        .panel-primary.col-md-5.col-md-offset-1
+            .panel-heading.lead Gas
+            .panel-body
+                .row
+                    .col-md-4 Ammout
+                    .col-md-8 {{ currentResources.gas }}
+                .row
+                    .col-md-4 Mine speed
+                    .col-md-8 {{ currentResources.growRate[1] }}
+    .divider
+    .row
+        .panel-primary.col-md-5.col-md-offset-1
+            .panel-heading.lead Energy
+            .panel-body
+                .row
+                    .col-md-4 Ammout
+                    .col-md-8 {{ currentResources.energy }}
+        .panel-primary.col-md-5.col-md-offset-1
+            .panel-heading.lead Supply
+            .panel-body
+                .row
+                    .col-md-4 Ammout
+                    .col-md-8 {{ currentResources.supply }}

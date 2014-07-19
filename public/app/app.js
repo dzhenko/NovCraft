@@ -18,10 +18,6 @@ app.config(function($routeProvider) {
     };
 
     $routeProvider
-        .when('/', {
-            templateUrl: '/partials/main/home',
-            controller: 'MainCtrl'
-        })
         .when('/signup', {
             templateUrl: '/partials/account/signup',
             controller: 'SignUpCtrl'
@@ -29,6 +25,16 @@ app.config(function($routeProvider) {
         .when('/profile', {
             templateUrl: '/partials/account/profile',
             controller: 'ProfileCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/settings', {
+            templateUrl: '/partials/account/settings',
+            controller: 'SettingsCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/resources/:owner', {
+            templateUrl: '/partials/gameobjects/overview',
+            controller: 'ResourcesOverviewCtrl',
             resolve: routeUserChecks.authenticated
         })
         .when('/courses', {
@@ -39,15 +45,14 @@ app.config(function($routeProvider) {
             templateUrl: '/partials/courses/course-details',
             controller: 'CourseDetailsCtrl'
         })
-        .when('/settings', {
-            templateUrl: '/partials/account/settings',
-            controller: 'SettingsCtrl',
-            resolve: routeUserChecks.authenticated
-        })
         .when('/admin/users', {
             templateUrl: '/partials/admin/users-list',
             controller: 'UserListCtrl',
             resolve: routeUserChecks.adminRole
+        })
+        .when('/', {
+            templateUrl: '/partials/main/home',
+            controller: 'MainCtrl'
         })
 });
 

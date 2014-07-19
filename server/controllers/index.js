@@ -1,9 +1,11 @@
 'use strict';
 
 var usersController = require('../controllers/usersController'),
-    coursesController = require('../controllers/coursesController');
+    coursesController = require('../controllers/coursesController'),
+    resourcesController = require('../controllers/resourcesController');
 
 module.exports = {
     users: usersController,
-    courses: coursesController
+    courses: coursesController,
+    resources: resourcesController
 };
