@@ -1,7 +1,7 @@
 'use strict';
 
 app.factory('GameObjectsResource', function($resource) {
-    var GameObjectsResource = $resource('/api/resources/:owner', {owner:'@owner'});
+    var GameObjectsResource = $resource('/api/game-objects/:owner', {owner:'@owner'});
 
     return GameObjectsResource;
 });

@@ -4,7 +4,7 @@ var encryption = require('../utilities/encryption'),
     mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Resource = mongoose.model('Resource'),
-    defaults = require('../config/gameDefaults');
+    defaults = require('../game/initialUserObjects');
 
 module.exports = {
     createUser: function (req, res, next) {
