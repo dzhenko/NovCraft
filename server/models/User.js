@@ -21,31 +21,39 @@ userSchema.method({
 var User = mongoose.model('User', userSchema);
 
 module.exports = {
-    reSeedInitialUsers: function () {
+    addAdmins: function () {
         var salt,
             hashedPwd;
 
-        salt = encryption.generateSalt();
-        hashedPwd = encryption.generateHashedPassword(salt, '123');
-        User.create({username: '123', firstName: 'Test', lastName: 'Unit', salt: salt, hashPass: hashedPwd, roles: ['admin']});
+        salt = encryption.generateSalt();                   // change pass
+        hashedPwd = encryption.generateHashedPassword(salt, 'admin');
+        User.create({username: 'admin', firstName: 'Administrator', lastName: 'Pesho', salt: salt, hashPass: hashedPwd, roles: ['admin']});
 
-        salt = encryption.generateSalt();
-        hashedPwd = encryption.generateHashedPassword(salt, 'name2');
-        User.create({username: 'name2', firstName: 'user2FirstName', lastName: 'user2LastName', salt: salt, hashPass: hashedPwd, roles: ['standard']});
+        salt = encryption.generateSalt();                   // change pass
+        hashedPwd = encryption.generateHashedPassword(salt, 'password');
+        User.create({username: 'administrator', firstName: 'administrator', lastName: 'Gosho', salt: salt, hashPass: hashedPwd, roles: ['admin']});
 
-        salt = encryption.generateSalt();
-        hashedPwd = encryption.generateHashedPassword(salt, 'name3');
-        User.create({username: 'name3', firstName: 'user3FirstName', lastName: 'user3LastName', salt: salt, hashPass: hashedPwd});
-
-        console.log('Users collection was empty - added 3 test users');
+        console.log('Added 2 admins - admin and administrator');
     },
-    removeAll: function() {
+    removeAll: function() { // TODO: Remove after development
         User.remove({}).exec(function(err){
             if (err) {
                 console.log('Can not delete users ' + err);
             }
             else {
                 console.log('All Users deleted successfully');
+            }
+        })
+    },
+    showAll: function() { // TODO: Remove after development
+        User.find({}).exec(function(err, users) {
+            if (err) {
+                console.log('Can not delete users ' + err);
+            }
+            else {
+                console.log('----------------------------------------');
+                console.log('All Users :');
+                console.log(users);
             }
         })
     }

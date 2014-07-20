@@ -54,6 +54,7 @@ app.config(function($routeProvider) {
             templateUrl: '/partials/main/home',
             controller: 'MainCtrl'
         })
+        .otherwise({redirectTo: 'home'})
 });
 
 app.run(function($rootScope, $location) {

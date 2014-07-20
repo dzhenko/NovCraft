@@ -21,6 +21,7 @@ module.exports = function(app) {
     app.post('/logout', auth.logout);
 
     app.get('/api/*', function(req, res) {
+        res.render('index');
         res.status(404);
         res.end();
     });

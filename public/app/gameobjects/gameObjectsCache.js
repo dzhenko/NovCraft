@@ -5,7 +5,8 @@ app.factory('gameObjectsCache', function(GameObjectsResource) {
 
     return {
         getResourceForUserId: function(id) {
-            if (!cachedGameObjects || Math.round((new Date() - cachedGameObjects.updated) / 60000) > 1) {
+            if (!cachedGameObjects || (new Date().getTime()) - cachedGameObjects.updated >= 60000 ||
+                cachedGameObjects.owner !== id) {
                 cachedGameObjects = GameObjectsResource.get({owner:id});
             }
 

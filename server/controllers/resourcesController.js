@@ -15,10 +15,11 @@ module.exports = {
                 res.end();
             }
 
-            var diffMin = Math.round((new Date() - resource.updated) / 60000);
-            resource.updated = new Date();
-            resource.minerals = diffMin * resource.growRate[0];
-            resource.minerals = diffMin * resource.growRate[1];
+            var newUpdated = (new Date()).getTime();
+            var diffMin = Math.round((newUpdated - resource.updated) / 60000);
+            resource.updated = newUpdated;
+            resource.minerals+= diffMin * resource.growRate[0];
+            resource.gas+= diffMin * resource.growRate[1];
 
             resource.save(function(){
                 res.send(resource);

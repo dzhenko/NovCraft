@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    models = require('../models');
+    modelsExports = require('../models');
 
 module.exports = function (config) {
     mongoose.connect(config.db);
@@ -20,10 +20,20 @@ module.exports = function (config) {
         console.log('Database error ' + err);
     });
 
-    // models.user.reSeedInitialUsers();
     // TODO: Add admins manually
-    // TODO: Remove courses
-
-    // models.user.removeAll();
-    // models.resource.removeAll();
+    showDb();
 };
+
+// TODO: Remove after development
+function clearDb() {
+    // TODO: Remove courses
+    // modelsExports.courses.removeAll();
+    modelsExports.user.removeAll();
+    modelsExports.resource.removeAll();
+}
+
+// TODO: Remove after development
+function showDb() {
+    modelsExports.resource.showAll();
+    modelsExports.user.showAll();
+}

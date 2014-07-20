@@ -3,7 +3,8 @@
 var encryption = require('../utilities/encryption'),
     mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    Resource = mongoose.model('Resource');
+    Resource = mongoose.model('Resource'),
+    defaults = require('../config/gameDefaults');
 
 module.exports = {
     createUser: function (req, res, next) {
@@ -18,15 +19,15 @@ module.exports = {
                 return;
             }
 
-            Resource.generateUserResources(user, function(err, resource) {
-                req.logIn(user, function (err) {
-                    if (err) {
-                        res.status(400);
-                        return res.send({reason: err.toString()})
-                    }
+            Resource.create(defaults.getDefaultResourcesForUser((user)));
 
-                    res.send(user);
-                });
+            req.logIn(user, function (err) {
+                if (err) {
+                    res.status(400);
+                    return res.send({reason: err.toString()})
+                }
+
+                res.send(user);
             });
         })
     },
