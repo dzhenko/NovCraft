@@ -2,10 +2,10 @@
 
 var userModel = require('../models/User'),
     courseModel = require('../models/Course'),
-    resourceModel = require('../models/Resource');
+    gameObjectsModel = require('../models/GameObjects');
 
 module.exports = {
     user: userModel,
     course: courseModel,
-    resource: resourceModel
+    gameObjects: gameObjectsModel
 };

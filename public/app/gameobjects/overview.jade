@@ -1,6 +1,6 @@
 .container
     .jumbotron
-        h1 Resources Overview {{ asd }}
+        h1 Resources Overview
     .divider
     .row
         .panel.panel-primary.col-md-4.col-md-offset-1
@@ -8,19 +8,19 @@
             .panel-body
                 .row
                     .col-md-4 Ammout
-                    .col-md-8 {{ currentResources.minerals }}
+                    .col-md-8 {{ gameObjects.minerals }}
                 .row
                     .col-md-4 Mine speed
-                    .col-md-8 {{ currentResources.growRate[0] }} / min
+                    .col-md-8 {{ buildingsModel.gasFactory.amount[gameObjects.buildings[0]] }} / min
         .panel.panel-primary.col-md-4.col-md-offset-1
             .panel-heading.lead Gas
             .panel-body
                 .row
                     .col-md-4 Ammout
-                    .col-md-8 {{ currentResources.gas }}
+                    .col-md-8 {{ gameObjects.gas }}
                 .row
                     .col-md-4 Mine speed
-                    .col-md-8 {{ currentResources.growRate[1] }} / min
+                    .col-md-8 {{ buildingsModel.gasFactory.amount[gameObjects.buildings[1]] }} / min
     .divider
     .row
         .panel.panel-primary.col-md-4.col-md-offset-1
@@ -28,10 +28,10 @@
             .panel-body
                 .row
                     .col-md-4 Ammout
-                    .col-md-8 {{ currentResources.energy }}
+                    .col-md-8 {{ buildingsModel.solarPanels.amount[gameObjects.buildings[2]] }}
         .panel.panel-primary.col-md-4.col-md-offset-1
             .panel-heading.lead Supply
             .panel-body
                 .row
                     .col-md-4 Ammout
-                    .col-md-8 {{ currentResources.supply }}
+                    .col-md-8 {{ buildingsModel.supply.amount[gameObjects.buildings[3]] }}

@@ -4,32 +4,46 @@ module.exports = {
     getTerranModel : function() {
         return {
             mineralFactory: {
-                name: '',
-                image: ''
+                name: 'Command center',
+                image: '',
+                alt: '',
+                description: ''
             },
             gasFactory: {
-                name: '',
-                image: ''
+                name: 'Refinery',
+                image: '',
+                alt: '',
+                description: ''
             },
             solarPanels: {
-                name: '',
-                image: ''
+                name: 'Fusion core',
+                image: '',
+                alt: '',
+                description: ''
             },
             supply: {
-                name: '',
-                image: ''
+                name: 'Supply depot',
+                image: '',
+                alt: '',
+                description: ''
             },
             barracks: {
-                name:'',
-                image: ''
+                name: 'Barracks',
+                image: '',
+                alt: '',
+                description: ''
             },
             shipYard: {
-                name: '',
-                image: ''
+                name: 'Starport',
+                image: '',
+                alt: '',
+                description: ''
             },
-            lab : {
-                name:'',
-                image:''
+            lab: {
+                name: 'Ghost academy',
+                image: '',
+                alt: '',
+                description: ''
             }
         }
     }

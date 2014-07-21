@@ -22,6 +22,15 @@
                     .col-md-3
                         .alert.alert-danger(ng-hide="!!user.username") Username name is required
                 .form-group
+                    label.col-md-2.control-label Race
+                    .col-md-6
+                        .class.btn-group.btn-group-justified
+                            .btn.btn-default(ng-click="changeRace('terran')") Terran
+                            .btn.btn-default(ng-click="changeRace('protoss')") Protoss
+                            .btn.btn-default(ng-click="changeRace('zerg')") Zerg
+                    .col-md-3
+                        .alert.alert-danger(ng-hide="!!user.race") Race is required
+                .form-group
                     label.col-md-2.control-label(for="password") Password
                     .col-md-6
                         input.form-control(id="password" type="password", placeholder="Password", ng-model="user.password", required)

@@ -1,8 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    modelsExports = require('../models'),
-    game = require('../game');
+    modelsExports = require('../models');
 
 module.exports = function (config) {
     mongoose.connect(config.db);
@@ -23,14 +22,6 @@ module.exports = function (config) {
 
     // TODO: Add admins manually
     showDb();
-
-    var a = game.buildings.getBuildingsModel();
-    for (var obj in a) {
-        console.log(obj);
-        for (var key in a[obj]) {
-            console.log(a[obj][key].length + ' ' + a[obj]);
-        }
-    }
 };
 
 // TODO: Remove after development
@@ -38,11 +29,11 @@ function clearDb() {
     // TODO: Remove courses
     // modelsExports.courses.removeAll();
     modelsExports.user.removeAll();
-    modelsExports.resource.removeAll();
+    modelsExports.gameObjects.removeAll();
 }
 
 // TODO: Remove after development
 function showDb() {
-    modelsExports.resource.showAll();
+    modelsExports.gameObjects.showAll();
     modelsExports.user.showAll();
 }
