@@ -3,6 +3,7 @@
 var GameObjects = require('mongoose').model('GameObjects'),
     game = require('../game/index');
 
+// TODO: test
 module.exports = {
     handleAttack: function (transporters, tier1, tier2, tier3, turns, flightTime, source, targetID) {
         GameObjects.findOne({owner: targetID}).exec(function (err, target) {
@@ -25,10 +26,16 @@ module.exports = {
             };
 
             for (var i = 0; i < turns; i++) {
+                //
+                console.log('turn ' + i);
+                //
                 var attackerDamage = game.units.air.attack[0] * game.upgrades[source.upgrades[7]] * transporters +
                     game.units.air.attack[1] * game.upgrades[source.upgrades[7]] * tier1 +
                     game.units.air.attack[2] * game.upgrades[source.upgrades[7]] * tier2 +
                     game.units.air.attack[3] * game.upgrades[source.upgrades[7]] * tier3;
+                //
+                console.log('attacker dmg ' + attackerDamage);
+                //
 
                 var defenderDamage = game.units.air.attack[1] * game.upgrades[target.upgrades[7]] * target.ships[0] +
                     game.units.air.attack[1] * game.upgrades[target.upgrades[7]] * target.ships[1] +
@@ -37,6 +44,9 @@ module.exports = {
                     game.units.ground.attack[0] * game.upgrades[target.upgrades[10]] * target.troops[0] +
                     game.units.ground.attack[1] * game.upgrades[target.upgrades[10]] * target.troops[1] +
                     game.units.ground.attack[2] * game.upgrades[target.upgrades[10]] * target.troops[2];
+                //
+                console.log('defender dmg ' + defenderDamage);
+                //
 
                 report.target.ships.push([target.ships[0], target.ships[1], target.ships[2], target.ships[3]]);
                 report.target.ships.push([target.troops[0], target.troops[1], target.troops[2]]);
@@ -45,8 +55,15 @@ module.exports = {
                 report.attacker.ships.push([transporters, tier1, tier2, tier3]);
                 report.attacker.damage.push(attackerDamage);
 
+                //
+                console.log(report);
+                //
+
                 // one of the two guys is dead
                 if (attackerDamage === 0 || defenderDamage === 0) {
+                    //
+                    console.log('dmg 0 - aborting');
+                    //
                     break;
                 }
 
@@ -137,8 +154,9 @@ module.exports = {
                     }
                 }
             }
-
-            
+            //
+            console.log(report);
+            //
 
             // if any survivor
             sourceGameObjects.returns.push({

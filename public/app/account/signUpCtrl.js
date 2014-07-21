@@ -2,6 +2,7 @@
 
 app.controller('SignUpCtrl', function($scope, $location, auth, notifier) {
     var $body = $('body');
+    $scope.user = {};
 
     $scope.signup = function(user) {
         auth.signup(user).then(function() {
