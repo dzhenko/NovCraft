@@ -19,7 +19,7 @@ module.exports = {
             // tier 1 tier 2 tier 3
             troops: [0, 0, 0],
             // TODO: this
-            upgrades: [0, 0, 0, 0, 0, 0, 0, 0],
+            upgrades: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             attacks: []
         });
     }

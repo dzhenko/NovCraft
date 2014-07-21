@@ -10,7 +10,7 @@ var gameObjectsSchema = mongoose.Schema({
     tasks: [
         {
             finishTime: Number,
-            type: String,
+            type: { type: String, enum: ['buildings', 'ships', 'troops', 'upgrades'] },
             indexToAddTo: Number
         }
     ],
@@ -25,15 +25,32 @@ var gameObjectsSchema = mongoose.Schema({
     attacks: [
         {
             // player ID
-            source: Number,
-            // player ID
             target: Number,
-            // time of take off
-            start: Number,
-            // time of land home (half time is time of HIT
-            finish: Number,
+            // time of hit
+            time: Number,
             // attacker's transport tier1 tier2 tier3 ships
-            attacker: [Number]
+            ships: [Number],
+            // number of cycles to attack
+            turns : Number,
+            flightTime: Number
+        }
+    ],
+    returns: [
+        {
+            // time of land home
+            time: Number,
+            // attacker's transport tier1 tier2 tier3 ships
+            ships: [Number],
+            // outcome of the battle may result in resources for the attacker
+            cargo: [Number],
+        }
+    ],
+    defences: [
+        {
+            // player ID
+            source: Number,
+            // time of attack home
+            time: Number
         }
     ]
 });

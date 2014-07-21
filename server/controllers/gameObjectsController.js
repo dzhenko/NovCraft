@@ -1,7 +1,7 @@
 'use strict';
 
 var GameObjects = require('mongoose').model('GameObjects'),
-    buildingsModel = require('../game/buildingsModel');
+    objectsHandler = require('../handlers/userObjectsHandler');
 
 module.exports = {
     getGameObjectsForUserId: function(req, res, next) {
@@ -16,14 +16,7 @@ module.exports = {
                 res.end();
             }
 
-            // updating
-            var newUpdated = (new Date()).getTime();
-            var diffMs = newUpdated - userGameObjects.updated;
-            userGameObjects.updated = newUpdated;
-
-            // resources
-            userGameObjects.minerals+= Math.round((diffMs / 60000) * buildingsModel.mineralFactory.amount[userGameObjects.buildings[0]]);
-            userGameObjects.gas+=  Math.round((diffMs / 60000) * buildingsModel.gasFactory.amount[userGameObjects.buildings[1]]);
+            objectsHandler.refreshUserGameObjects(userGameObjects);
 
             userGameObjects.save(function(){
                 res.send(userGameObjects);
@@ -39,7 +32,7 @@ module.exports = {
 //    tasks: [
 //    {
 //        finishTime: Number,
-//        type: String,
+//        type: String, (buildings / ships / troops / upgrades
 //        indexToAddTo: Number
 //    }
 //],
@@ -53,15 +46,33 @@ module.exports = {
 //    upgrades: [0,0,0,0,0,0,0],
 //    attacks: [
 //    {
-//        // player ID
-//        source: Number,
-//        // player ID
-//        target: Number,
-//        // time of take off
-//        start: Number,
-//        // time of land home (half time is time of HIT
-//        finish: Number,
-//        // attacker's transport tier1 tier2 tier3 ships
-//        attacker: [Number]
-//    }
+    // player ID
+//    target: Number,
+        // time of hit
+//        time: Number,
+    // attacker's transport tier1 tier2 tier3 ships
+//      ships: [Number]
+// turns: Number
+//  }
+//  ],
+//  returns: [
+//      {
+//          // time of land home
+//          time: Number,
+//          // attacker's transport tier1 tier2 tier3 ships
+//          ships: [Number],
+//          // outcome of the battle may result in resources for the attacker
+//          cargo: [Number]
+//          // show the outcome
+//          report: {}
+//      }
+//  ],
+//      defences: [
+//      {
+//          // player ID
+//          source: Number,
+//          // time of attack home
+//          time: Number
+//      }
+//  ]
 //]

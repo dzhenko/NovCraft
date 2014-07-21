@@ -28,7 +28,7 @@ module.exports = function() {
     });
 
     passport.deserializeUser(function(id, done){
-        User.findOne({_id: id}).exec(function(err, user) {
+        User.findById(id, function(err, user) {
             if (err) {
                 console.log('Error loading user ' + err);
                 return;

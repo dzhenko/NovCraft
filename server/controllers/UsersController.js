@@ -74,7 +74,7 @@ module.exports = {
             }
 
             // check if user changes coordinates
-            User.find({_id: newUserData._id}).exec(function(err, foundUser) {
+            User.findById(newUserData._id ,function(err, foundUser) {
                 if (err) {
                     console.log('Users could not be loaded ' + err);
                 }
