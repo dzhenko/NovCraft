@@ -113,8 +113,13 @@ module.exports = {
                 var ships = objects.attacks[i].ships;
 
                 // call async func and remove from array
-                this.handleAttack(ships[0], ships[1], ships[2], ships[3],
-                    objects.attacks[i].turns, objects.attacks[i].flightTime, objects, objects.attacks[i].target);
+                attackHandler.handleAttackForTargetId({
+                        ships: [ships[0], ships[1], ships[2], ships[3]],
+                        airUpgrades: [objects.upgrades[7], objects.upgrades[8], objects.upgrades[9]]
+                    },
+                    objects.attacks[i].target,
+                    objects.attacks[i].turns,
+                    objects.attacks[i].flightTime);
 
                 objects.attacks.splice(i, 1);
             }

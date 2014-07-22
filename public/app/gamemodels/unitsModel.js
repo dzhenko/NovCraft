@@ -3,9 +3,9 @@
 app.factory('UnitsModel', function () {
     return {
         // transport tier1 tier2 tier3
-        air: {
+        ships: {
             attack: [1, 15, 59, 99],
-            defence: [1.05, 1, 1.10, 1.20],
+            defence: [5, 0, 10, 15],
             health: [200, 100, 300, 500],
             capacity: [15000, 500, 2000, 5000],
             minerals: [19999, 12999, 59999, 139999],
@@ -14,9 +14,9 @@ app.factory('UnitsModel', function () {
             time: [199, 49, 299, 499]
         },
         // tier1 tier2 tier3
-        ground: {
+        troops: {
             attack: [6, 19, 34],
-            defence: [1.00, 1.10, 1.25],
+            defence: [5, 15, 25],
             health: [45, 130, 280],
             minerals: [3499, 15999, 34999],
             gas: [0, 5999, 16999],
