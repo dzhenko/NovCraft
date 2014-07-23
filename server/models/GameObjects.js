@@ -35,14 +35,14 @@ var gameObjectsSchema = mongoose.Schema({
             flightTime: Number
         }
     ],
-    returns: [
+    comebacks: [
         {
             // time of land home
             time: Number,
             // attacker's transport tier1 tier2 tier3 ships
             ships: [Number],
             // outcome of the battle may result in resources for the attacker
-            cargo: [Number],
+            cargo: [Number]
         }
     ],
     defences: [

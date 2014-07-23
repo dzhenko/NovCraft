@@ -49,37 +49,37 @@ module.exports = {
                 if (defender.troops[0] > 0) {
                     attackerDamage -= game.units.troops.health[0] * game.upgrades[defender.groundUpgrades[2]] *
                         chance.doubleHealth(game.units.troops.defence[0] * game.upgrades[defender.groundUpgrades[1]]);
-                    defender.troops[0] -= attackerDamage >= 0 ? 1 : 0;
+                    defender.troops[0] -= (attackerDamage >= 0 ? 1 : 0);
                 }
                 else if (defender.troops[1] > 0) {
                     attackerDamage -= game.units.troops.health[1] * game.upgrades[defender.groundUpgrades[2]] *
                         chance.doubleHealth(game.units.troops.defence[1] * game.upgrades[defender.groundUpgrades[1]]);
-                    defender.troops[1] -= attackerDamage >= 0 ? 1 : 0;
+                    defender.troops[1] -= (attackerDamage >= 0 ? 1 : 0);
                 }
                 else if (defender.troops[2] > 0) {
                     attackerDamage -= game.units.troops.health[2] * game.upgrades[defender.groundUpgrades[2]] *
                         chance.doubleHealth(game.units.troops.defence[2] * game.upgrades[defender.groundUpgrades[1]]);
-                    defender.troops[2] -= attackerDamage >= 0 ? 1 : 0;
+                    defender.troops[2] -= (attackerDamage >= 0 ? 1 : 0);
                 }
                 else if (defender.ships[1] > 0) {
                     attackerDamage -= game.units.ships.health[1] * game.upgrades[defender.airUpgrades[2]] *
                         chance.doubleHealth(game.units.ships.defence[1] * game.upgrades[defender.airUpgrades[1]]);
-                    defender.ships[1] -= attackerDamage >= 0 ? 1 : 0;
+                    defender.ships[1] -= (attackerDamage >= 0 ? 1 : 0);
                 }
                 else if (defender.ships[2] > 0) {
                     attackerDamage -= game.units.ships.health[2] * game.upgrades[defender.airUpgrades[2]] *
                         chance.doubleHealth(game.units.ships.defence[2] * game.upgrades[defender.airUpgrades[1]]);
-                    defender.ships[2] -= attackerDamage >= 0 ? 1 : 0;
+                    defender.ships[2] -= (attackerDamage >= 0 ? 1 : 0);
                 }
                 else if (defender.ships[3] > 0) {
                     attackerDamage -= game.units.ships.health[3] * game.upgrades[defender.airUpgrades[2]] *
                         chance.doubleHealth(game.units.ships.defence[3] * game.upgrades[defender.airUpgrades[1]]);
-                    defender.ships[3] -= attackerDamage >= 0 ? 1 : 0;
+                    defender.ships[3] -= (attackerDamage >= 0 ? 1 : 0);
                 }
                 else if (defender.ships[0] > 0) {
                     attackerDamage -= game.units.ships.health[0] * game.upgrades[defender.airUpgrades[2]] *
                         chance.doubleHealth(game.units.ships.defence[0] * game.upgrades[defender.airUpgrades[1]]);
-                    defender.ships[0] -= attackerDamage >= 0 ? 1 : 0;
+                    defender.ships[0] -= (attackerDamage >= 0 ? 1 : 0);
                 }
                 else {
                     break;
@@ -90,22 +90,22 @@ module.exports = {
                 if (attacker.ships[1] > 0) {
                     defenderDamage -= game.units.ships.health[1] * game.upgrades[attacker.airUpgrades[2]] *
                         chance.doubleHealth(game.units.ships.defence[1] * game.upgrades[attacker.airUpgrades[1]]);
-                    attacker.ships[1] -= defenderDamage >= 0 ? 1 : 0;
+                    attacker.ships[1] -= (defenderDamage >= 0 ? 1 : 0);
                 }
                 else if (attacker.ships[2] > 0) {
                     defenderDamage -= game.units.ships.health[2] * game.upgrades[attacker.airUpgrades[2]] *
                         chance.doubleHealth(game.units.ships.defence[2] * game.upgrades[attacker.airUpgrades[1]]);
-                    attacker.ships[2] -= defenderDamage >= 0 ? 1 : 0;
+                    attacker.ships[2] -= (defenderDamage >= 0 ? 1 : 0);
                 }
                 else if (attacker.ships[3] > 0) {
                     defenderDamage -= game.units.ships.health[3] * game.upgrades[attacker.airUpgrades[2]] *
                         chance.doubleHealth(game.units.ships.defence[3] * game.upgrades[attacker.airUpgrades[1]]);
-                    attacker.ships[3] -= defenderDamage >= 0 ? 1 : 0;
+                    attacker.ships[3] -= (defenderDamage >= 0 ? 1 : 0);
                 }
                 else if (attacker.ships[0] > 0) {
                     defenderDamage -= game.units.ships.health[0] * game.upgrades[attacker.airUpgrades[2]] *
                         chance.doubleHealth(game.units.ships.defence[0] * game.upgrades[attacker.airUpgrades[1]]);
-                    attacker.ships[0] -= defenderDamage >= 0 ? 1 : 0;
+                    attacker.ships[0] -= (defenderDamage >= 0 ? 1 : 0);
                 }
                 else {
                     break;

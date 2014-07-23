@@ -89,21 +89,21 @@ module.exports = {
         }
 
         // attackers are home
-        for (i = objects.returns.length - 1; i >= 0; i--) {
-            var currReturn = objects.returns[i];
+        for (i = objects.comebacks.length - 1; i >= 0; i--) {
+            var comeback = objects.comebacks[i];
 
-            if (currReturn.time <= now) {
+            if (comeback.time <= now) {
                 // resources
-                objects.minerals += currReturn.cargo[0];
-                objects.gas += currReturn.cargo[1];
+                objects.minerals += comeback.cargo[0];
+                objects.gas += comeback.cargo[1];
 
                 // ships back to bay
-                for (var s = 0; s < currReturn.ships.length; s++) {
-                    objects.ships[s] += currReturn.ships[s];
+                for (var s = 0; s < comeback.ships.length; s++) {
+                    objects.ships[s] += comeback.ships[s];
                 }
 
                 // removing the task
-                objects.returns.splice(i, 1);
+                objects.comebacks.splice(i, 1);
             }
         }
 
@@ -126,29 +126,3 @@ module.exports = {
         }
     }
 };
-
-//attacks: [
-//    {
-//        // player ID
-//        target: Number,
-//        // time of hit
-//        time: Number,
-//        // attacker's transport tier1 tier2 tier3 ships
-//        ships: [Number],
-//        // number of cycles to attack
-//        turns : Number,
-//        flightTime: Number
-//    }
-//],
-//    returns: [
-//    {
-//        // time of land home
-//        time: Number,
-//        // attacker's transport tier1 tier2 tier3 ships
-//        ships: [Number],
-//        // outcome of the battle may result in resources for the attacker
-//        cargo: [Number],
-//        // show the outcome
-//        report: {}
-//    }
-//],
