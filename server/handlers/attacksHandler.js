@@ -125,7 +125,6 @@ module.exports = {
                 console.log('Game objects for target could not be loaded ' + err);
                 return;
             }
-            console.log('defender ' + defender);
 
             var report = handleAttack(attacker, {
                 troops: [defender.troops[0], defender.troops[1], defender.troops[2]],
@@ -134,17 +133,11 @@ module.exports = {
                 airUpgrades: [defender.upgrades[7], defender.upgrades[8], defender.upgrades[9]]
             }, turns);
 
-            console.log('report : ----------------------> ' + report);
-            console.log(report);
-            console.log('report : ----------------------> ' + report);
-
             var stolenMinerals = 0,
                 stolenGas = 0,
                 cargoCapacity= attacker.ships[0]*game.units.ships.capacity[0] + attacker.ships[1]*game.units.ships.capacity[1] +
                                attacker.ships[2]*game.units.ships.capacity[2] +attacker.ships[3]*game.units.ships.capacity[3],
                 originalCargoCapacity = cargoCapacity;
-
-            console.log('capacity : ----------------------> ' + cargoCapacity);
 
             if (report.win && cargoCapacity > 0) {
                 stolenMinerals = Math.min(defender.minerals, cargoCapacity);
@@ -171,13 +164,9 @@ module.exports = {
 
                     var comeback = {
                         time: (flightTime + (new Date()).getTime()),
-                        ships: [attacker.ships[0], attacker.ships[1], attacker.ships[2], attacker.ships[3]],
+                        ships: report.attacker.ships[report.attacker.ships.length - 1],
                         cargo: [stolenMinerals, stolenGas]
                     };
-
-                    console.log('this comeback created ->');
-                    console.log(JSON.stringify(comeback));
-                    console.log('this comeback created ->');
 
                     attackerGameObjects.comebacks.push(comeback);
 
@@ -193,22 +182,13 @@ module.exports = {
                     return;
                 }
 
-                console.log('<<<<<<<<<<<<<<<<<<<<<<<<< ->');
-                console.log('this report created ->' + JSON.stringify(report1));
-                console.log('<<<<<<<<<<<<<<<<<<<<<<<<< ->');
-
                 report.owner = defender.owner;
                 report.win = !report.win;
 
                 Report.create(report, function (err, report2) {
                     if (err) {
                         console.log('Failed to create report ' + err);
-                        return;
                     }
-
-                    console.log('<<<<<<<<<<<<<<<<<<<<<<<<< ->');
-                    console.log('this report created ->' + JSON.stringify(report2));
-                    console.log('<<<<<<<<<<<<<<<<<<<<<<<<< ->');
                 });
             });
         });
