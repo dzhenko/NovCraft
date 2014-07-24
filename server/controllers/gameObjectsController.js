@@ -16,6 +16,7 @@ module.exports = {
                 res.end();
             }
 
+            // in sync
             objectsHandler.refreshUserGameObjects(userGameObjects);
 
             userGameObjects.save(function(){

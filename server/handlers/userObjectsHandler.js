@@ -4,50 +4,6 @@ var GameObjects = require('mongoose').model('GameObjects'),
     game = require('../game/index'),
     attackHandler = require('../handlers/attacksHandler');
 
-function handleAttack(transporters, tier1, tier2, tier3, turns, flightTime, source, targetID) {
-    GameObjects.findOne({owner: targetID}).exec(function (err, target) {
-        if (err) {
-            console.log('Game objects for target could not be loaded ' + err);
-        }
-
-        for (var i = 0; i < turns; i++) {
-            var attackerAttack = game.units.air.attack[0] * game.upgrades[source.upgrades[7]] * transporters +
-                                 game.units.air.attack[1] * game.upgrades[source.upgrades[7]] * tier1 +
-                                 game.units.air.attack[2] * game.upgrades[source.upgrades[7]] * tier2 +
-                                 game.units.air.attack[3] * game.upgrades[source.upgrades[7]] * tier3;
-
-            var defenderAttack = game.units.air.attack[1] * game.upgrades[target.upgrades[7]] * target.ships[0] +
-                                 game.units.air.attack[1] * game.upgrades[target.upgrades[7]] * target.ships[1] +
-                                 game.units.air.attack[2] * game.upgrades[target.upgrades[7]] * target.ships[2] +
-                                 game.units.air.attack[3] * game.upgrades[target.upgrades[7]] * target.ships[3] +
-                                 game.units.ground.attack[0] * game.upgrades[target.upgrades[10]] * target.troops[0] +
-                                 game.units.ground.attack[1] * game.upgrades[target.upgrades[10]] * target.troops[1] +
-                                 game.units.ground.attack[2] * game.upgrades[target.upgrades[10]] * target.troops[2];
-
-            while (attackerAttack > 0) {
-
-            }
-
-            while (defenderAttack > 0) {
-
-            }
-        }
-
-
-        // if any survivor
-        sourceGameObjects.returns.push({
-            time: (flightTime + (new Date()).getTime()),
-            ships: [],
-            cargo: [],
-            report: {}
-        });
-
-        // saves the effects of the attack
-        sourceGameObjects.save();
-        target.save();
-    });
-}
-
 // TODO: Rename to index
 module.exports = {
     // working in sync
@@ -114,6 +70,7 @@ module.exports = {
 
                 // call async func and remove from array
                 attackHandler.handleAttackForTargetId({
+                        source: objects.owner,
                         ships: [ships[0], ships[1], ships[2], ships[3]],
                         airUpgrades: [objects.upgrades[7], objects.upgrades[8], objects.upgrades[9]]
                     },
