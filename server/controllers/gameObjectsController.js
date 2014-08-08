@@ -1,7 +1,7 @@
 'use strict';
 
 var GameObjects = require('mongoose').model('GameObjects'),
-    objectsHandler = require('../handlers/userObjectsHandler');
+    userObjectsHandler = require('../handlers/userObjectsHandler');
 
 module.exports = {
     getGameObjectsForUserId: function(req, res, next) {
@@ -16,8 +16,8 @@ module.exports = {
                 res.end();
             }
 
-            // in sync
-            objectsHandler.refreshUserGameObjects(userGameObjects);
+            // sync call
+            userObjectsHandler.refreshUserGameObjects(userGameObjects);
 
             userGameObjects.save(function(){
                 res.send(userGameObjects);

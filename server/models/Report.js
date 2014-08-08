@@ -19,8 +19,9 @@ var reportSchema = mongoose.Schema({
 
 var Report = mongoose.model('Report', reportSchema);
 
+// For development
 module.exports = {
-    removeAll: function () { // TODO: Remove after development
+    removeAll: function () {
         Report.remove({}).exec(function (err) {
             if (err) {
                 console.log('Can not delete Reports ' + err);
@@ -30,7 +31,7 @@ module.exports = {
             }
         })
     },
-    showAll: function () { // TODO: Remove after development
+    showAll: function () {
         Report.find({}).exec(function (err, objects) {
             if (err) {
                 console.log('Can not get game objects resources ' + err);

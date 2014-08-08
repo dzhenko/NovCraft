@@ -4,23 +4,28 @@ var GameObjects = require('mongoose').model('GameObjects'),
     game = require('../game/index'),
     attackHandler = require('../handlers/attacksHandler');
 
-// TODO: Rename to index
 module.exports = {
-    // working in sync
+    // sync call
     refreshUserGameObjects: function (objects) {
-        // updating
         var now = (new Date()).getTime();
         var diffMs = now - objects.updated;
-        objects.updated = newUpdated;
+
+        // in case spam bot requires resources updates too often
+        if (diffMs < 60000) {
+            return;
+        }
+
+        // updating
+        objects.updated = now;
 
         // resources
         objects.minerals += Math.round(
                 ((diffMs / 60000) * game.buildings.mineralFactory.amount[objects.buildings[0]]) *
-                (game.upgrades.multiplier[objects.upgrades[0]])
+                (game.upgrades[objects.upgrades[0]])
         );
         objects.gas += Math.round(
                 ((diffMs / 60000) * game.buildings.gasFactory.amount[objects.buildings[1]]) *
-                (game.upgrades.multiplier[objects.upgrades[1]])
+                (game.upgrades[objects.upgrades[1]])
         );
 
         var i;
@@ -39,12 +44,12 @@ module.exports = {
 
         // defences - remove warnings if they have happened
         for (i = objects.defences.length - 1; i >= 0; i--) {
-            if (task.finishTime <= now) {
+            if (objects.defences[i].time <= now) {
                 objects.defences.splice(i, 1);
             }
         }
 
-        // attackers are home
+        // comebacks - attackers are home
         for (i = objects.comebacks.length - 1; i >= 0; i--) {
             var comeback = objects.comebacks[i];
 

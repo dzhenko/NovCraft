@@ -26,7 +26,7 @@ app.controller('ResourcesOverviewCtrl', function($scope, $routeParams, $interval
 //        indexToAddTo: Number
 //    }
 //],
-//    // mineral gas energy supply barracks ships lab - only indexes
+//    // mineral gas energy supply troops ships lab - only indexes
 //    buildings: [0, 0, 0, 0, 0, 0, 0],
 //    // transport tier 1 tier 2 tier 3
 //    ships: [0, 0, 0, 0],

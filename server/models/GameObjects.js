@@ -14,13 +14,12 @@ var gameObjectsSchema = mongoose.Schema({
             indexToAddTo: Number
         }
     ],
-    // mineral gas energy supply barracks ships lab - only indexes
+    // mineral gas energy supply troops ships lab - only indexes
     buildings: [Number],
     // transport tier 1 tier 2 tier 3
     ships: [Number],
     // tier 1 tier 2 tier 3
     troops: [Number],
-    // TODO: this
     upgrades: [Number],
     attacks: [
         {
@@ -57,8 +56,9 @@ var gameObjectsSchema = mongoose.Schema({
 
 var GameObjects = mongoose.model('GameObjects', gameObjectsSchema);
 
+// For development
 module.exports = {
-    removeAll: function () { // TODO: Remove after development
+    removeAll: function () {
         GameObjects.remove({}).exec(function (err) {
             if (err) {
                 console.log('Can not delete game objects ' + err);

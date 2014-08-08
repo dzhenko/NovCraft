@@ -26,13 +26,13 @@ app.factory('ZergModel', function() {
             alt: '',
             description: ''
         },
-        barracks: {
+        troops: {
             name: 'Barracks',
             image: '',
             alt: '',
             description: ''
         },
-        shipYard: {
+        ships: {
             name: 'Starport',
             image: '',
             alt: '',

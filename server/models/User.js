@@ -10,7 +10,7 @@ var userSchema = mongoose.Schema({
     salt: String,
     hashPass: String,
     coordinates: [Number],
-    race: String,
+    race: { type: String, enum: ['terran', 'protoss', 'zerg'] },
     roles: [String]
 });
 
@@ -23,21 +23,23 @@ userSchema.method({
 var User = mongoose.model('User', userSchema);
 
 module.exports = {
+    // For Future :)
     addAdmins: function () {
         var salt,
             hashedPwd;
 
-        salt = encryption.generateSalt();                   // TODO: change pass
+        salt = encryption.generateSalt();
         hashedPwd = encryption.generateHashedPassword(salt, 'admin');
         User.create({username: 'admin', firstName: 'Administrator', lastName: 'Pesho', salt: salt, hashPass: hashedPwd, roles: ['admin'], race: 'terran', coordinates: [0,0,0]});
 
-        salt = encryption.generateSalt();                   // TODO change pass
+        salt = encryption.generateSalt();
         hashedPwd = encryption.generateHashedPassword(salt, 'password');
         User.create({username: 'administrator', firstName: 'administrator', lastName: 'Gosho', salt: salt, hashPass: hashedPwd, roles: ['admin'], race: 'terran', coordinates: [0,0,1]});
 
         console.log('Added 2 admins - admin and administrator');
     },
-    removeAll: function() { // TODO: Remove after development
+    // For development
+    removeAll: function() {
         User.remove({}).exec(function(err){
             if (err) {
                 console.log('Can not delete users ' + err);
@@ -47,7 +49,8 @@ module.exports = {
             }
         })
     },
-    showAll: function() { // TODO: Remove after development
+    // For development
+    showAll: function() {
         User.find({}).exec(function(err, users) {
             if (err) {
                 console.log('Can not delete users ' + err);

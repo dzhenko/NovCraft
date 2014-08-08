@@ -5,14 +5,14 @@ var messageSchema = mongoose.Schema({
     owner: { type: mongoose.Schema.ObjectId, ref: 'User' },
     from: String,
     date: Date,
-    text: Number,
-    attachments: {}
+    text: Number
 });
 
 var Message = mongoose.model('Message', messageSchema);
 
+// For development
 module.exports = {
-    removeAll: function () { // TODO: Remove after development
+    removeAll: function () {
         Message.remove({}).exec(function (err) {
             if (err) {
                 console.log('Can not delete game objects ' + err);
@@ -22,7 +22,7 @@ module.exports = {
             }
         })
     },
-    showAll: function () { // TODO: Remove after development
+    showAll: function () {
         Message.find({}).exec(function (err, objects) {
             if (err) {
                 console.log('Can not get Messages ' + err);

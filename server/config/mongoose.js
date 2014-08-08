@@ -20,21 +20,18 @@ module.exports = function (config) {
         console.log('Database error ' + err);
     });
 
-    // TODO: Add admins manually
-
+    // require('../tests/attack/attackTestForUserId').simulator();
 };
 
-// TODO: Remove after development
+// For development
 function clearDb() {
-    // TODO: Remove courses
-    // modelsExports.courses.removeAll();
     modelsExports.user.removeAll();
     modelsExports.gameObjects.removeAll();
     modelsExports.message.removeAll();
     modelsExports.report.removeAll();
 }
 
-// TODO: Remove after development
+// For development
 function showDb() {
     modelsExports.user.showAll();
     modelsExports.gameObjects.showAll();
