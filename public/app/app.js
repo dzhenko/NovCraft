@@ -37,19 +37,6 @@ app.config(function($routeProvider) {
             controller: 'ResourcesOverviewCtrl',
             resolve: routeUserChecks.authenticated
         })
-        .when('/courses', {
-            templateUrl: '/partials/courses/courses-list',
-            controller: 'CoursesListCtrl'
-        })
-        .when('/courses/:id', {
-            templateUrl: '/partials/courses/course-details',
-            controller: 'CourseDetailsCtrl'
-        })
-        .when('/admin/users', {
-            templateUrl: '/partials/admin/users-list',
-            controller: 'UserListCtrl',
-            resolve: routeUserChecks.adminRole
-        })
         .when('/', {
             templateUrl: '/partials/main/home',
             controller: 'MainCtrl'

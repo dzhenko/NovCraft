@@ -6,16 +6,11 @@ block main-content
             .navbar-header
                 a.navbar-brand(href="#/") NovCraft
             .navbar-collapse.collapse
-                ul.nav.navbar-nav
-                    li
-                        a(href="#/") Home
-                    li
-                        a(href="#/courses") Courses
                 div(ng-include="'partials/account/login'")
 
     section
         div(ng-view)
 
     footer
-        p.text-center
-            | &copy NovCraft MEAN Application 2014
+        p.text-center.text-primary
+            | &copy NovCraft MEAN Application 2014 Powered by starcraft.wikia.com
