@@ -20,7 +20,10 @@ module.exports = function (config) {
         console.log('Database error ' + err);
     });
 
-    // require('../tests/attack/attackTestForUserId').simulator();
+    // showDb();
+    // require('../tests/attack/attackTestForUserId').setUsersWithStats();
+    // require('../tests/attack/attackTestForUserId').testAttackDispatcherNotifierAfterUsersAreSetWithStats();
+    // require('../tests/tasks/all').run();
 };
 
 // For development

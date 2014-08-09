@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 
 var gameObjectsSchema = mongoose.Schema({
     owner: { type: mongoose.Schema.ObjectId, ref: 'User' },
+    coordinates: [Number],
     minerals: Number,
     gas: Number,
     updated: Number,
@@ -24,13 +25,14 @@ var gameObjectsSchema = mongoose.Schema({
     attacks: [
         {
             // player ID
-            target: Number,
+            target: { type: mongoose.Schema.ObjectId, ref: 'User' },
             // time of hit
             time: Number,
             // attacker's transport tier1 tier2 tier3 ships
             ships: [Number],
             // number of cycles to attack
             turns : Number,
+            // needs to calculate return time
             flightTime: Number
         }
     ],
@@ -46,8 +48,8 @@ var gameObjectsSchema = mongoose.Schema({
     ],
     defences: [
         {
-            // player ID
-            source: Number,
+            // player coordinates
+            source: [Number],
             // time of attack home
             time: Number
         }
@@ -76,7 +78,7 @@ module.exports = {
             else {
                 console.log('----------------------------------------');
                 console.log('All Game Objects :');
-                console.log(objects);
+                console.log(JSON.stringify(objects));
             }
         })
     }

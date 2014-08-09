@@ -20,6 +20,8 @@ function setUsersWithStats() {
 
             obj.ships = [13, 24, 52, 27];
             obj.upgrades = [0,0,0,0,0,0,4,7,7,7,0,1,1];
+            obj.defences = [];
+            obj.attacks = [];
 
             obj.save(function() {
                 console.log('-------------------------------');
@@ -39,6 +41,8 @@ function setUsersWithStats() {
             obj.upgrades = [0,0,0,0,0,0,4,7,7,7,4,4,4];
             obj.minerals = 192384;
             obj.gas = 999999999;
+            obj.defences = [];
+            obj.attacks = [];
 
             obj.save(function() {
                 console.log('-------------------------------');
@@ -91,9 +95,20 @@ function testHandleAttackSimulator() {
 
 module.exports = {
     simulator : testHandleAttackSimulator,
-    testAttackId1: function() {
-        modelsExports.report.removeAll();
-        setUsersWithStats();
-        testHandleAttackFromAttackerObjectToUserId();
+    setUsersWithStats: setUsersWithStats,
+    testHandleAttackFromAttackerObjectToUserId: testHandleAttackFromAttackerObjectToUserId,
+    testAttackDispatcherNotifierAfterUsersAreSetWithStats: function() {
+        require('../../controllers/gameAttacksController').createAttack({
+            params: {
+                owner: '53e65c0b5c383cb412c798a7',
+                targetID: '53e65741860d5f780f2d366f',
+                ships: [12, 23, 31, 6],
+                turns: 12
+            }
+        }, {
+            send: function(stuff) {
+                console.log(stuff);
+            }
+        })
     }
 };

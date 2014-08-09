@@ -123,7 +123,19 @@ module.exports = {
         GameObjects.findOne({owner: targetID}).exec(function (err, defender) {
             if (err) {
                 console.log('Game objects for target could not be loaded ' + err);
-                return;
+                // no return - attacker has to get his ships back
+            }
+
+            if (!defender) {
+                defender = {
+                    troops: [0,0,0],
+                    groundUpgrades: [0,0,0],
+                    ships: [0,0,0,0],
+                    airUpgrades: [0,0,0],
+                    minerals: 0,
+                    gas: 0,
+                    fake: true
+                }
             }
 
             var report = handleAttack(attacker, {
@@ -150,9 +162,13 @@ module.exports = {
                 defender.gas -= stolenGas;
             }
 
-            defender.ships = report.defender.ships[report.defender.ships.length - 1];
-            defender.troops = report.defender.troops[report.defender.troops.length - 1];
-            defender.save();
+            if (!defender.fake) {
+                defender.ships = report.defender.ships[report.defender.ships.length - 1];
+                defender.troops = report.defender.troops[report.defender.troops.length - 1];
+
+                // async - doesn't matter
+                defender.save();
+            }
 
             report.stolen = [stolenMinerals, stolenGas];
 
@@ -172,6 +188,7 @@ module.exports = {
 
                     attackerGameObjects.comebacks.push(comeback);
 
+                    // async - doesn't matter
                     attackerGameObjects.save();
                 });
             }
@@ -186,14 +203,16 @@ module.exports = {
                 }
 
                 // sending to defender with opposite win status
-                report.owner = defender.owner;
-                report.win = !report.win;
+                if (!defender.fake) {
+                    report.owner = defender.owner;
+                    report.win = !report.win;
 
-                Report.create(report, function (err) {
-                    if (err) {
-                        console.log('Failed to create report ' + err);
-                    }
-                });
+                    Report.create(report, function (err) {
+                        if (err) {
+                            console.log('Failed to create report ' + err);
+                        }
+                    });
+                }
             });
         });
     },

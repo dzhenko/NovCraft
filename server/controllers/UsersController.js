@@ -1,10 +1,11 @@
 'use strict';
 
 var encryption = require('../utilities/encryption'),
+    scanCost = require('../utilities/scanCost'),
     mongoose = require('mongoose'),
     User = mongoose.model('User'),
     GameObjects = mongoose.model('GameObjects'),
-    initialObjects = require('../game/initialUserObjects');
+    initialUserObjects = require('../game/initialUserObjects');
 
 function getUnusedCoordinatesForUser(otherUsers) {
     var invalidCoords = true;
@@ -32,8 +33,7 @@ module.exports = {
         var newUserData = req.body;
         newUserData.salt = encryption.generateSalt();
         newUserData.hashPass = encryption.generateHashedPassword(newUserData.salt, newUserData.password);
-        newUserData.roles = []; // no cheats
-        newUserData.password = undefined; // no cheats
+        newUserData.roles = []; // no roles for now
 
         User.find({}).exec(function(err, allUsers) {
             if (err) {
@@ -41,6 +41,7 @@ module.exports = {
                 return;
             }
 
+            // sync call
             newUserData.coordinates = getUnusedCoordinatesForUser(allUsers);
 
             User.create(newUserData, function (err, user) {
@@ -49,7 +50,7 @@ module.exports = {
                     return;
                 }
 
-                initialObjects.createDefaultsForUser(user);
+                initialUserObjects.createDefaultsForUser(user);
 
                 req.logIn(user, function (err) {
                     if (err) {
@@ -63,27 +64,18 @@ module.exports = {
         });
     },
     updateUser: function (req, res, next) {
-        if (req.user._id.toString() === req.body._id.toString() || req.user.roles.indexOf('admin') >= 0) {
-            var newUserData = req.body;
-            newUserData.roles = []; // no cheats
-            newUserData.password = undefined; // no cheats
-            if (newUserData.password && newUserData.password.length > 5) {
+        if (req.user._id.toString() === req.body._id.toString() /*|| req.user.roles.indexOf('admin') >= 0*/) {
+            var newUserData = {
+                firstName : req.body.firstName,
+                lastName: req.body.lastName
+            };
+            if (req.body.password && req.body.password.length > 5) {
                 newUserData.salt = encryption.generateSalt();
-                newUserData.hashPass = encryption.generateHashedPassword(newUserData.salt, newUserData.password);
-                newUserData.password = undefined;
+                newUserData.hashPass = encryption.generateHashedPassword(newUserData.salt, req.body.password);
             }
 
-            // check if user changes coordinates
-            User.findById(newUserData._id ,function(err, foundUser) {
-                if (err) {
-                    console.log('Users could not be loaded ' + err);
-                }
-
-                newUserData.coordinates = foundUser.coordinates;
-
-                User.update({_id: newUserData._id}, newUserData, function () {
-                    res.end();
-                })
+            User.update({_id: newUserData._id}, newUserData, function () {
+                res.end();
             });
         }
         else {
@@ -91,12 +83,56 @@ module.exports = {
         }
     },
     getAllUsers: function (req, res) {
-        User.find({}).exec(function (err, collection) {
+        User.find({}).select('username coordinates race _id').exec(function (err, collection) {
             if (err) {
                 console.log('Users could not be loaded ' + err);
             }
 
             res.send(collection);
         });
+    },
+    // post with req.body.targetID
+    scanUser: function(req, res) {
+        GameObjects.findOne({owner: req.params.owner}).exec(function(err, userGameObjects) {
+            if (err) {
+                console.log('Game objects could not be loaded ' + err);
+                return;
+            }
+
+            if (!userGameObjects) {
+                console.log('Un-existing user required his game objects');
+                res.status(404);
+                res.end();
+                return;
+            }
+
+            // sync call
+            var costOfScan = scanCost.calculate(userGameObjects);
+
+            if (userGameObjects.minerals < costOfScan.minerals || userGameObjects.gas < costOfScan.gas) {
+                res.send({
+                    success: false
+                });
+                return;
+            }
+
+            userGameObjects.minerals = userGameObjects.minerals - costOfScan.minerals;
+            userGameObjects.gas = userGameObjects.gas - costOfScan.gas;
+
+            GameObjects.findOne({owner: req.body.targetID}).select('minerals gas ships troops').exec(function(err, targetObjects) {
+                if (err) {
+                    console.log('Game objects could not be loaded ' + err);
+                    return;
+                }
+
+                // TODO: react to this object
+                userGameObjects.save(function(){
+                    res.send({
+                        targetObjects : targetObjects,
+                        success : true
+                    });
+                });
+            });
+        })
     }
 };
