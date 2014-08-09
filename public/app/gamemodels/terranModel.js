@@ -37,7 +37,7 @@ app.factory('TerranModel', function() {
                 name: 'Starport',
                 image: 'http://img3.wikia.nocookie.net/__cb20080629223825/starcraft/images/2/25/Starport_SC2_DevRend2.jpg',
                 alt: 'Starport',
-                description: 'The Starport provides the terran race with its main ship army.'
+                description: 'The Starport provides the terran race with its home ship army.'
             },
             lab: {
                 name: 'Armory',

@@ -1,7 +1,0 @@
-.container
-    .well.col-md-6
-        .panel-primary
-            .panel-heading.lead {{ course.name }}
-            .panel-body {{ course.date | date}}
-            .panel-footer.bg-success(ng-show="'{{ course.show }}'") Featured
-            .panel-footer.bg-success(ng-hide="'{{ course.show }}'") Not Featured

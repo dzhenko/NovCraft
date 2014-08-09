@@ -1,7 +1,6 @@
 'use strict';
 
 app.controller('SignUpCtrl', function($scope, $location, auth, notifier) {
-    var $body = $('body');
     $scope.user = {};
 
     $scope.signup = function(user) {
@@ -14,10 +13,6 @@ app.controller('SignUpCtrl', function($scope, $location, auth, notifier) {
     $scope.changeRace = function(race) {
         $scope.user.race = race;
 
-        $body.removeClass('zerg-back');
-        $body.removeClass('protoss-back');
-        $body.removeClass('terran-back');
-
-        $('body').addClass(race + '-back');
+        $('body').removeClass('zerg-back').removeClass('protoss-back').removeClass('terran-back').addClass(race + '-back');
     }
 });

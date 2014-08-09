@@ -33,13 +33,13 @@ app.config(function($routeProvider) {
             resolve: routeUserChecks.authenticated
         })
         .when('/resources/:owner', {
-            templateUrl: '/partials/gameobjects/overview',
-            controller: 'ResourcesOverviewCtrl',
+            templateUrl: '/partials/overview/overview',
+            controller: 'OverviewCtrl',
             resolve: routeUserChecks.authenticated
         })
         .when('/', {
-            templateUrl: '/partials/main/home',
-            controller: 'MainCtrl'
+            templateUrl: '/partials/home/home',
+            controller: 'HomeCtrl'
         })
         .otherwise({redirectTo: 'home'})
 });
