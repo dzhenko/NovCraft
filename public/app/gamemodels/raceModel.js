@@ -65,7 +65,7 @@ app.factory('RaceModel', function() {
                 },
                 {
                     name: 'Void ray',
-                    image: 'http://starcraft.wikia.com/wiki/Void_ray?file=VoidRay_SC2_Rend1.jpg',
+                    image: 'http://img1.wikia.nocookie.net/__cb20090129011444/starcraft/images/1/1d/VoidRay_SC2_Rend1.jpg',
                     alt: 'Void ray',
                     description: 'The protoss Void ray is a deadly tier 2 spaceship'
                 },

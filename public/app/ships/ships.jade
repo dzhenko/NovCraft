@@ -1,0 +1,34 @@
+.container
+    include ../common/resourcesOverview
+
+    .panel.panel-success(ng-show="filteredTasks.length > 0")
+        .panel-heading
+            h3.panel-title Ships in progress
+        .panel-body
+            .row(ng-repeat="task in filteredTasks")
+                .col-md-8
+                    h3.lead {{ raceModel.ships[task.indexToAddTo].name }}
+                    h5.lead(timer end-time="task.time") Time left  {{ hours }} hours , {{ minutes }} minutes , {{ seconds }} seconds
+                    .progress.progress-striped.active
+                        .progress-bar(style="width: {{ 100 * ((now - task.created)/(task.time - task.created)) }}%")
+                .col-md-3.col-md-offset-1
+                    img.pull-right(src="" ng-src="{{ raceModel.ships[task.indexToAddTo].image }}" alt="image" height=150 width=150)
+
+    .panel.panel-info.row(ng-repeat="ship in raceModel.ships")
+        .panel-heading
+            h3.panel-title {{ ship.name }}
+        .panel-body
+            .col-md-9
+                p.lead Amount {{ gameObjects.ships[$index] }}
+                p.lead {{ ship.description }}
+                .row
+                    h3.col-md-9 Cost
+                        span.text-primary  {{ shipsModel.minerals[$index] }} minerals
+                        span.text-success  {{ shipsModel.gas[$index] }} gas
+                        span.text-danger  {{ shipsModel.supply[$index] }} supply
+                    button.btn.btn-lg.btn-primary.col-md-3(ng-click="confirm($index)" data-toggle="modal" data-target="#confirmer" ng-hide="(gameObjects && filteredTasks.length >= buildingsModel[5].amount[gameObjects.buildings[5]]) || (gameObjects && !calculator.canAffordShip(gameObjects, $index))") Create
+                    button.btn.btn-lg.btn-danger.col-md-3(ng-disabled="true" ng-show="(gameObjects && filteredTasks.length >= buildingsModel[5].amount[gameObjects.buildings[5]]) || (gameObjects && !calculator.canAffordShip(gameObjects, $index))") Unable
+            .col-md-2.col-md-offset-1
+                img.pull-right(src="" ng-src="{{ ship.image }}" alt="image" height=250 width=250)
+
+    include ../common/confirmer

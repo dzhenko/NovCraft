@@ -7,7 +7,7 @@ app.controller('LoginCtrl', function ($scope, $location, notifier, identity, aut
         auth.login(user).then(function (success) {
             if (success) {
                 notifier.success('Successful login!');
-
+                $('body').removeClass('zerg-back').removeClass('protoss-back').removeClass('terran-back').addClass(identity.currentUser.race + '-back');
                 $location.path('/overview/'+ identity.currentUser._id)
             }
             else {
@@ -20,6 +20,7 @@ app.controller('LoginCtrl', function ($scope, $location, notifier, identity, aut
         auth.logout().then(function () {
             notifier.success('Successful logout');
             $scope.user = {};
+
             $location.path('/');
         });
     }

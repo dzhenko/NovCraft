@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('gameObjectsCache', function (GameObjectsResource) {
+app.factory('gameObjectsCache', function (GameObjectsResource, identity) {
     var cachedGameObjects;
 
     function checkIfRefreshIsNeeded() {
@@ -51,7 +51,9 @@ app.factory('gameObjectsCache', function (GameObjectsResource) {
         refresh: function() {
             cachedGameObjects = undefined;
         },
-        getGameObjectsForUserId: function (id) {
+        getGameObjectsForUser: function () {
+            var id = identity.currentUser._id;
+
             checkIfRefreshIsNeeded();
 
             if (!cachedGameObjects || (new Date()).getTime() - cachedGameObjects.updated >= 120000 ||

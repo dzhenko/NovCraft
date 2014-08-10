@@ -1,13 +1,15 @@
 'use strict';
 
-app.controller('BuildingsCtrl',
-    function ($scope, $interval, gameObjectsCache, RaceModel, identity, BuildingsModel, Calculator, notifier, GameRequests) {
+app.controller('ShipsCtrl',
+    function ($scope, $interval, gameObjectsCache, RaceModel, identity, BuildingsModel, ShipsModel, Calculator, notifier, GameRequests) {
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.buildingsModel = BuildingsModel;
+        $scope.shipsModel = ShipsModel;
 
         $scope.calculator = Calculator;
 
         queryGameObjects();
+        //TODO: add link in the attack source coords to scan player
 
         // the client querries himself every 90 sec. The server is querried only once per 2 min
         $interval(queryGameObjects, 1000 * 90);
@@ -16,7 +18,7 @@ app.controller('BuildingsCtrl',
             gameObjectsCache.getGameObjectsForUser().$promise.then(function (objects) {
                 $scope.filteredTasks = objects.tasks
                     .filter(function (obj) {
-                        return obj.type == 'buildings'
+                        return obj.type == 'ships'
                     });
 
                 $scope.gameObjects = objects;
@@ -30,21 +32,21 @@ app.controller('BuildingsCtrl',
             })
         }
 
-        var buildingIndex = -1;
+        var shipIndex = -1;
         $scope.confirm = function (index) {
-            buildingIndex = index;
-            $scope.confirmerText = Calculator.requiredResourcesMessage($scope.gameObjects, 'buildings', index);
+            shipIndex = index;
+            $scope.confirmerText = Calculator.requiredResourcesMessage($scope.gameObjects, 'ships', index);
         };
 
         $scope.confirmerAccept = function () {
-            GameRequests.createTask('buildings', buildingIndex).then(function (response) {
+            GameRequests.createTask('ships', shipIndex).then(function (response) {
                 if (response.success) {
-                    notifier.success('Building started');
+                    notifier.success('Ship construction started');
                     gameObjectsCache.refresh();
                     queryGameObjects();
                 }
                 else {
-                    notifier.error('Not enough minerals or energy');
+                    notifier.error('Not enough minerals, gas or supply');
                 }
             }, function (error) {
                 alert(error)

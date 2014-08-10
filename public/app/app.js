@@ -5,9 +5,7 @@ var app = angular.module('app', ['ngResource', 'ngRoute']).value('toastr', toast
 
 app.config(function($routeProvider, $sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([
-        // Allow same origin resource loads.
         'self',
-        // Allow loading from our assets domain.  Notice the difference between * and **.
         'http://img*.wikia.nocookie.net/**'
     ]);
 
@@ -47,14 +45,29 @@ app.config(function($routeProvider, $sceDelegateProvider) {
             controller: 'SettingsCtrl',
             resolve: routeUserChecks.authenticated
         })
-        .when('/overview/:owner', {
+        .when('/overview', {
             templateUrl: '/partials/overview/overview',
             controller: 'OverviewCtrl',
             resolve: routeUserChecks.authenticated
         })
-        .when('/buildings/:owner', {
+        .when('/buildings', {
             templateUrl: '/partials/buildings/buildings',
             controller: 'BuildingsCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/ships', {
+            templateUrl: '/partials/ships/ships',
+            controller: 'ShipsCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/troops', {
+            templateUrl: '/partials/troops/troops',
+            controller: 'TroopsCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/upgrades', {
+            templateUrl: '/partials/upgrades/upgrades',
+            controller: 'UpgradesCtrl',
             resolve: routeUserChecks.authenticated
         })
         .when('/', {

@@ -1,12 +1,12 @@
 'use strict';
 
-app.factory('Calculator', function(BuildingsModel, ShipsModel, TroopsModel, UpgradesModel) {
+app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, UpgradesModel) {
     function freeEnergy(objects) {
         var indexes = objects.buildings;
         var energy = BuildingsModel[2].amount[indexes[2]];
 
         for (var i = 0; i < BuildingsModel.length; i++) {
-            energy-= BuildingsModel[i].energy[indexes[i]];
+            energy -= BuildingsModel[i].energy[indexes[i]];
         }
 
         return energy;
@@ -62,8 +62,72 @@ app.factory('Calculator', function(BuildingsModel, ShipsModel, TroopsModel, Upgr
         return supply;
     }
 
+    function requiredResources(objects, type, index) {
+        var cost = {
+            time: requiredTime(objects, type, index)
+        };
+
+        switch (type) {
+            case 'buildings' :
+                cost.minerals = BuildingsModel[index].cost[objects.buildings[index] + 1];
+                cost.energy = BuildingsModel[index].energy[objects.buildings[index] + 1] - BuildingsModel[index].energy[objects.buildings[index]];
+                break;
+            case 'ships' :
+                cost.minerals = ShipsModel.minerals[index];
+                cost.gas = ShipsModel.gas[index];
+                cost.supply = ShipsModel.supply[index];
+                break;
+            case 'troops' :
+                cost.minerals = TroopsModel.minerals[index];
+                cost.gas = TroopsModel.gas[index];
+                cost.supply = TroopsModel.supply[index];
+                break;
+            case 'upgrades' :
+                cost.minerals = UpgradesModel.cost.minerals[objects.upgrades[index] + 1];
+                cost.gas = UpgradesModel.cost.gas[objects.upgrades[index] + 1];
+                break;
+        }
+
+        return cost;
+    }
+
+    function requiredResourcesMessage(objects, type, index) {
+        var cost = requiredResources(objects, type, index);
+
+        cost.time = convertToTime(cost.time);
+
+        var message = 'This ' + type.substring(0, type.length - 1) + ' will cost you';
+        for (var resource in cost) {
+            if (cost.hasOwnProperty(resource)) {
+                message += ' ' + cost[resource] + ' ' + resource;
+            }
+        }
+
+        return message;
+    }
+
     function convertToTime(minutes) {
         return Math.floor(minutes / 60) + ' hours , ' + minutes % 60 + ' minutes';
+    }
+
+    function requiredTime(objects, type, index) {
+        var time;
+        switch (type) {
+            case 'buildings' :
+                time = BuildingsModel[index].time[objects.buildings[index] + 1] * (2 - UpgradesModel.multiplier[objects.upgrades[2]]);
+                break;
+            case 'ships' :
+                time = ShipsModel.time[index] * (2 - UpgradesModel.multiplier[objects.upgrades[3]]);
+                break;
+            case 'troops' :
+                time = TroopsModel.time[index] * (2 - UpgradesModel.multiplier[objects.upgrades[4]]);
+                break;
+            case 'upgrades' :
+                time = UpgradesModel.cost.time[objects.upgrades[index] + 1] * (2 - UpgradesModel.multiplier[objects.upgrades[5]]);
+                break;
+        }
+
+        return Math.round(time);
     }
 
     function canAffordBuilding(objects, index) {
@@ -78,18 +142,36 @@ app.factory('Calculator', function(BuildingsModel, ShipsModel, TroopsModel, Upgr
     }
 
     function canAffordShip(objects, index) {
-        var cost = BuildingsModel[index].cost[objects.buildings[index] + 1];
-        var energy = BuildingsModel[index].energy[objects.buildings[index] + 1];
+        var minerals = ShipsModel.minerals[index];
+        var gas = ShipsModel.gas[index];
+        var supply = ShipsModel.supply[index];
+
+        return minerals <= objects.minerals && gas <= objects.gas && supply <= freeSupply(objects);
     }
 
     function canAffordTroop(objects, index) {
-        var cost = BuildingsModel[index].cost[objects.buildings[index] + 1];
-        var energy = BuildingsModel[index].energy[objects.buildings[index] + 1];
+        var minerals = TroopsModel.minerals[index];
+        var gas = TroopsModel.gas[index];
+        var supply = TroopsModel.supply[index];
+
+        return minerals <= objects.minerals && gas <= objects.gas && supply <= freeSupply(objects);
     }
 
     function canAffordUpgrade(objects, index) {
-        var cost = BuildingsModel[index].cost[objects.buildings[index] + 1];
-        var energy = BuildingsModel[index].energy[objects.buildings[index] + 1];
+        var minerals = UpgradesModel.cost.minerals[index];
+        var gas = UpgradesModel.cost.gas[index];
+
+        return minerals <= objects.minerals && gas <= objects.gas;
+    }
+
+    function upgradeInProgress(objects, index) {
+        for (var i = 0; i < objects.tasks.length; i++) {
+            if (objects.tasks[i].type == 'upgrades' && objects.tasks[i].indexToAddTo == index) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     function mineralsPerMinute(objects) {
@@ -103,11 +185,15 @@ app.factory('Calculator', function(BuildingsModel, ShipsModel, TroopsModel, Upgr
     return {
         freeEnergy: freeEnergy,
         freeSupply: freeSupply,
+        requiredResources: requiredResources,
+        requiredResourcesMessage: requiredResourcesMessage,
         convertToTime: convertToTime,
+        requiredTime: requiredTime,
         canAffordBuilding: canAffordBuilding,
         canAffordShip: canAffordShip,
         canAffordTroop: canAffordTroop,
         canAffordUpgrade: canAffordUpgrade,
+        upgradeInProgress: upgradeInProgress,
         mineralsPerMinute: mineralsPerMinute,
         gasPerMinute: gasPerMinute
     }

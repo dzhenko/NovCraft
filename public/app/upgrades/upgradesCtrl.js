@@ -1,13 +1,16 @@
 'use strict';
 
-app.controller('BuildingsCtrl',
-    function ($scope, $interval, gameObjectsCache, RaceModel, identity, BuildingsModel, Calculator, notifier, GameRequests) {
+app.controller('UpgradesCtrl',
+    function ($scope, $interval, gameObjectsCache, RaceModel, identity, BuildingsModel, UpgradesModel, Calculator, notifier, GameRequests) {
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.buildingsModel = BuildingsModel;
+        $scope.upgradesModel = UpgradesModel;
+        $scope.Math = Math;
 
         $scope.calculator = Calculator;
 
         queryGameObjects();
+        //TODO: add link in the attack source coords to scan player
 
         // the client querries himself every 90 sec. The server is querried only once per 2 min
         $interval(queryGameObjects, 1000 * 90);
@@ -16,7 +19,7 @@ app.controller('BuildingsCtrl',
             gameObjectsCache.getGameObjectsForUser().$promise.then(function (objects) {
                 $scope.filteredTasks = objects.tasks
                     .filter(function (obj) {
-                        return obj.type == 'buildings'
+                        return obj.type == 'upgrades'
                     });
 
                 $scope.gameObjects = objects;
@@ -30,21 +33,21 @@ app.controller('BuildingsCtrl',
             })
         }
 
-        var buildingIndex = -1;
+        var upgradesIndex = -1;
         $scope.confirm = function (index) {
-            buildingIndex = index;
-            $scope.confirmerText = Calculator.requiredResourcesMessage($scope.gameObjects, 'buildings', index);
+            upgradesIndex = index;
+            $scope.confirmerText = Calculator.requiredResourcesMessage($scope.gameObjects, 'upgrades', index);
         };
 
         $scope.confirmerAccept = function () {
-            GameRequests.createTask('buildings', buildingIndex).then(function (response) {
+            GameRequests.createTask('upgrades', upgradesIndex).then(function (response) {
                 if (response.success) {
-                    notifier.success('Building started');
+                    notifier.success('Upgrade started');
                     gameObjectsCache.refresh();
                     queryGameObjects();
                 }
                 else {
-                    notifier.error('Not enough minerals or energy');
+                    notifier.error('Not enough minerals or gas');
                 }
             }, function (error) {
                 alert(error)

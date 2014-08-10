@@ -1,0 +1,34 @@
+.container
+    include ../common/resourcesOverview
+
+    .panel.panel-success(ng-show="filteredTasks.length > 0")
+        .panel-heading
+            h3.panel-title Troops in progress
+        .panel-body
+            .row(ng-repeat="task in filteredTasks")
+                .col-md-8
+                    h3.lead {{ raceModel.troops[task.indexToAddTo].name }}
+                    h5.lead(timer end-time="task.time") Time left  {{ hours }} hours , {{ minutes }} minutes , {{ seconds }} seconds
+                    .progress.progress-striped.active
+                        .progress-bar(style="width: {{ 100 * ((now - task.created)/(task.time - task.created)) }}%")
+                .col-md-3.col-md-offset-1
+                    img.pull-right(src="" ng-src="{{ raceModel.troops[task.indexToAddTo].image }}" alt="image" height=150 width=150)
+
+    .panel.panel-info.row(ng-repeat="troop in raceModel.troops")
+        .panel-heading
+            h3.panel-title {{ troop.name }}
+        .panel-body
+            .col-md-9
+                p.lead Amount {{ gameObjects.troops[$index] }}
+                p.lead {{ troop.description }}
+                .row
+                    h3.col-md-9 Cost
+                        span.text-primary  {{ troopsModel.minerals[$index] }} minerals
+                        span.text-success  {{ troopsModel.gas[$index] }} gas
+                        span.text-danger  {{ troopsModel.supply[$index] }} supply
+                    button.btn.btn-lg.btn-primary.col-md-3(ng-click="confirm($index)" data-toggle="modal" data-target="#confirmer" ng-hide="(gameObjects && filteredTasks.length >= buildingsModel[4].amount[gameObjects.buildings[4]]) || (gameObjects && !calculator.canAffordTroop(gameObjects, $index))") Train
+                    button.btn.btn-lg.btn-danger.col-md-3(ng-disabled="true" ng-show="(gameObjects && filteredTasks.length >= buildingsModel[4].amount[gameObjects.buildings[4]]) || (gameObjects && !calculator.canAffordTroop(gameObjects, $index))") Unable
+            .col-md-2.col-md-offset-1
+                img.pull-right(src="" ng-src="{{ troop.image }}" alt="image" height=250 width=250)
+
+    include ../common/confirmer

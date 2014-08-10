@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('OverviewCtrl', function($scope, $routeParams, $interval, gameObjectsCache, RaceModel, identity, UpgradesModel, Calculator) {
+app.controller('OverviewCtrl', function($scope, $interval, gameObjectsCache, RaceModel, identity, UpgradesModel, Calculator) {
     $scope.raceModel = RaceModel[identity.currentUser.race];
     $scope.raceModel.upgrades = UpgradesModel.names;
 
@@ -11,7 +11,7 @@ app.controller('OverviewCtrl', function($scope, $routeParams, $interval, gameObj
     $interval(queryGameObjects, 1000 * 90);
 
     function queryGameObjects() {
-        gameObjectsCache.getGameObjectsForUserId($routeParams.owner).$promise.then(function(objects) {
+        gameObjectsCache.getGameObjectsForUser().$promise.then(function(objects) {
             $scope.gameObjects = objects;
             $scope.now = (new Date()).getTime();
 
