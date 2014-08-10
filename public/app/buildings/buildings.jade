@@ -1,0 +1,34 @@
+.container
+    include ../common/resourcesOverview
+
+    .panel.panel-success(ng-show="filteredTasks.length > 0")
+        .panel-heading
+            h3.panel-title Building in progress {{buildingTasks[0].time}}
+        .panel-body
+            .row(ng-repeat="task in filteredTasks")
+                .col-md-8
+                    h3.lead {{ raceModel.buildings[task.indexToAddTo].name }} level {{ gameObjects.buildings[task.indexToAddTo] + 1 }}
+                    h5.lead(timer end-time="task.time") Time left  {{ hours }} hours , {{ minutes }} minutes , {{ seconds }} seconds
+                    .progress.progress-striped.active
+                        .progress-bar(style="width: {{ 100 * ((now - task.created)/(task.time - task.created)) }}%")
+                .col-md-3.col-md-offset-1
+                    img.pull-right(src="" ng-src="{{ raceModel.buildings[task.indexToAddTo].image }}" alt="image" height=150 width=150)
+
+    .panel.panel-info.row(ng-repeat="building in raceModel.buildings")
+        .panel-heading
+            h3.panel-title {{ building.name }}
+        .panel-body
+            .col-md-9
+                p.lead Level {{ gameObjects.buildings[$index] }}
+                p.lead Production {{ buildingsModel[$index].amount[gameObjects.buildings[$index]] }}
+                p.lead {{ building.description }}
+                h3 Next Level will produce {{ buildingsModel[$index].amount[gameObjects.buildings[$index] + 1] }}
+                .row
+                    h3.col-md-9 Cost
+                        span.text-primary  {{ buildingsModel[$index].cost[gameObjects.buildings[$index] + 1] }} minerals
+                        span.text-warning   {{ buildingsModel[$index].energy[gameObjects.buildings[$index] + 1] - buildingsModel[$index].energy[gameObjects.buildings[$index]] }} energy
+                    button.btn.btn-lg.btn-primary.col-md-3(ng-click="confirm($index)" data-toggle="modal" data-target="#confirmer" ng-disabled="filteredTasks.length >0 || (gameObjects && !calculator.canAffordBuilding(gameObjects, $index))") Build
+            .col-md-2.col-md-offset-1
+                img.pull-right(src="" ng-src="{{ building.image }}" alt="image" height=250 width=250)
+
+    include ../common/confirmer

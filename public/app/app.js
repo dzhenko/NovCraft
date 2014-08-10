@@ -3,7 +3,14 @@
 // only one app so name is app
 var app = angular.module('app', ['ngResource', 'ngRoute']).value('toastr', toastr);
 
-app.config(function($routeProvider) {
+app.config(function($routeProvider, $sceDelegateProvider) {
+    $sceDelegateProvider.resourceUrlWhitelist([
+        // Allow same origin resource loads.
+        'self',
+        // Allow loading from our assets domain.  Notice the difference between * and **.
+        'http://img*.wikia.nocookie.net/**'
+    ]);
+
     var routeUserChecks = {
         adminRole: {
             authenticate: function(auth) {
@@ -12,7 +19,15 @@ app.config(function($routeProvider) {
         },
         authenticated: {
             authenticate: function(auth) {
-                return auth.isAuthenticated();
+                var userRace = auth.isAuthenticated();
+                if (userRace) {
+                    $('body').removeClass('zerg-back').removeClass('protoss-back').removeClass('terran-back')
+                        .addClass(userRace + '-back');
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         }
     };
@@ -32,16 +47,21 @@ app.config(function($routeProvider) {
             controller: 'SettingsCtrl',
             resolve: routeUserChecks.authenticated
         })
-        .when('/resources/:owner', {
+        .when('/overview/:owner', {
             templateUrl: '/partials/overview/overview',
             controller: 'OverviewCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/buildings/:owner', {
+            templateUrl: '/partials/buildings/buildings',
+            controller: 'BuildingsCtrl',
             resolve: routeUserChecks.authenticated
         })
         .when('/', {
             templateUrl: '/partials/home/home',
             controller: 'HomeCtrl'
         })
-        .otherwise({redirectTo: 'home'})
+        .otherwise({redirectTo: '/'})
 });
 
 app.run(function($rootScope, $location) {

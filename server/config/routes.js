@@ -8,10 +8,9 @@ module.exports = function(app) {
     app.post('/api/users', controllers.users.createUser);
     app.put('/api/users', auth.isAuthenticated, controllers.users.updateUser);
 
-    // todo - this targetID
-    app.post('/api/users-scan/:owner', auth.isAuthenticated, controllers.users.scanUser);
+    // todo - this
+    app.post('/api/users-scan/:target', auth.isAuthenticated, controllers.users.scanUser);
 
-    // todo - add authentication if the requesting user is the same as the logged in one
     app.get('/api/game-objects/:owner', auth.isAuthenticated, controllers.gameObjects.getGameObjectsForUserId);
 
     // todo - this taskType, taskIndexToAddTo

@@ -3,14 +3,66 @@
 app.factory('gameObjectsCache', function (GameObjectsResource) {
     var cachedGameObjects;
 
+    function checkIfRefreshIsNeeded() {
+        if (!cachedGameObjects) {
+            return;
+        }
+
+        var now = new Date().getTime();
+        var needsRefresh = false;
+        var i;
+
+        for (i = 0; i < cachedGameObjects.tasks.length; i++) {
+            if (cachedGameObjects.tasks[i].time <= now) {
+                needsRefresh = true;
+            }
+        }
+
+        if (!needsRefresh) {
+            for (i = 0; i < cachedGameObjects.attacks.length; i++) {
+                if (cachedGameObjects.attacks[i].time <= now) {
+                    needsRefresh = true;
+                }
+            }
+        }
+
+        if (!needsRefresh) {
+            for (i = 0; i < cachedGameObjects.defences.length; i++) {
+                if (cachedGameObjects.defences[i].time <= now) {
+                    needsRefresh = true;
+                }
+            }
+        }
+
+        if (!needsRefresh) {
+            for (i = 0; i < cachedGameObjects.comebacks.length; i++) {
+                if (cachedGameObjects.comebacks[i].time <= now) {
+                    needsRefresh = true;
+                }
+            }
+        }
+
+        if (needsRefresh) {
+            cachedGameObjects = undefined;
+        }
+    }
+
     return {
+        refresh: function() {
+            cachedGameObjects = undefined;
+        },
         getGameObjectsForUserId: function (id) {
-            if (!cachedGameObjects || (new Date().getTime()) - cachedGameObjects.updated >= 120000 ||
+            checkIfRefreshIsNeeded();
+
+            if (!cachedGameObjects || (new Date()).getTime() - cachedGameObjects.updated >= 120000 ||
                 cachedGameObjects.owner !== id) {
                 cachedGameObjects = GameObjectsResource.get({owner: id});
             }
 
             return cachedGameObjects;
+        },
+        update: function(newObjects) {
+            cachedGameObjects = newObjects;
         }
     }
 });

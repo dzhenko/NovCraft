@@ -59,7 +59,7 @@ app.factory('auth', function($q, $http, identity, UsersResource) {
         },
         isAuthenticated: function() {
             if (identity.isAuthenticated()) {
-                return true;
+                return identity.currentUser.race;
             }
             else {
                 return $q.reject('not authorized');

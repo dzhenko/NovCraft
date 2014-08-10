@@ -130,7 +130,7 @@ function executeTask(objects, taskType, taskIndexToAddTo, cost) {
         var time = (cost.time * 60 * 1000) + now;
 
         objects.tasks.push({
-            finishTime: time,
+            time: time,
             type: taskType,
             indexToAddTo: taskIndexToAddTo
         });

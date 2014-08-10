@@ -30,6 +30,12 @@ module.exports = {
     },
     isAuthenticated: function(req, res, next) {
         if (!req.isAuthenticated()) {
+            res.render('index');
+            res.status(403);
+            res.end();
+        }
+        else if (req.params && req.params.owner && req.user._id != req.params.owner) {
+            res.render('index');
             res.status(403);
             res.end();
         }

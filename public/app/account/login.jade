@@ -13,18 +13,10 @@
                 span.caret
             ul.dropdown-menu
                 li
-                    a(href="#/courses") Courses
-                li
-                    a(href="#/resources/{{ identity.currentUser._id }}") Resources
-                li.divider
-                li
                     a(href="#/profile") Profile
                 li
                     a(href="#/settings") Settings
                 li.divider
-                li(ng-show="identity.currentUser.isAdmin()")
-                    a(href="#/admin/users") Users
-                li.divider(ng-show="identity.currentUser.isAdmin()")
                 li
                     a(href="#" ng-click="logout()") Sign Out
 

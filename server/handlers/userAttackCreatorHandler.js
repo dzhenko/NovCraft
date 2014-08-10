@@ -51,8 +51,7 @@ module.exports = {
             target: targetObjects.owner,
             time: timeToHit,
             ships: ships,
-            turns: turns,
-            flightTime: timeToFly
+            turns: turns
         });
 
         return true;

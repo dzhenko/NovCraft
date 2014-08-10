@@ -10,10 +10,10 @@ module.exports = {
         var now = (new Date()).getTime();
         var diffMs = now - objects.updated;
 
-        // in case spam bot requires resources updates too often
-        if (diffMs < 60000) {
-            return;
-        }
+//        // in case spam bot requires resources updates too often
+//        if (diffMs < 60000) {
+//            return;
+//        }
 
         // updating
         objects.updated = now;
@@ -34,7 +34,7 @@ module.exports = {
         for (i = objects.tasks.length - 1; i >= 0; i--) {
             var task = objects.tasks[i];
 
-            if (task.finishTime <= now) {
+            if (task.time <= now) {
                 objects[task.type][task.indexToAddTo]++;
 
                 // removing the task
@@ -81,7 +81,7 @@ module.exports = {
                     },
                     objects.attacks[i].target,
                     objects.attacks[i].turns,
-                    objects.attacks[i].flightTime);
+                    objects.attacks[i].time - objects.attacks[i].created);
 
                 objects.attacks.splice(i, 1);
             }

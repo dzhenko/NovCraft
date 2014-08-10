@@ -1,0 +1,15 @@
+.well
+    .btn-group.btn-group-justified
+        a.btn.btn-default.lead(href='#/buildings/{{gameObjects.owner}}') Resources
+        a.btn.btn-default.text-primary(href='#/buildings/{{gameObjects.owner}}') Minerals &nbsp
+            span.badge   {{ gameObjects.minerals }}
+            span {{ mineralsPerMinute }}
+            span.glyphicon.glyphicon-time
+        a.btn.btn-default.text-success(href='#/buildings/{{gameObjects.owner}}') Gas &nbsp
+            span.badge   {{ gameObjects.gas }}
+            span {{ gasPerMinute }}
+            span.glyphicon.glyphicon-time
+        a.btn.btn-default.text-warning(href='#/buildings/{{gameObjects.owner}}') Energy &nbsp
+            span.badge   {{ freeEnergy }}
+        a.btn.btn-default.text-danger(href='#/buildings/{{gameObjects.owner}}') Supply &nbsp
+            span.badge   {{ freeSupply }}

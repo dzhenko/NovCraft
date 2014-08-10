@@ -64,6 +64,7 @@ module.exports = {
         });
     },
     updateUser: function (req, res, next) {
+        // double check
         if (req.user._id.toString() === req.body._id.toString() /*|| req.user.roles.indexOf('admin') >= 0*/) {
             var newUserData = {
                 firstName : req.body.firstName,
@@ -93,7 +94,7 @@ module.exports = {
     },
     // post with req.body.targetID
     scanUser: function(req, res) {
-        GameObjects.findOne({owner: req.params.owner}).exec(function(err, userGameObjects) {
+        GameObjects.findOne({owner: req.user._id}).exec(function(err, userGameObjects) {
             if (err) {
                 console.log('Game objects could not be loaded ' + err);
                 return;
@@ -119,7 +120,7 @@ module.exports = {
             userGameObjects.minerals = userGameObjects.minerals - costOfScan.minerals;
             userGameObjects.gas = userGameObjects.gas - costOfScan.gas;
 
-            GameObjects.findOne({owner: req.body.targetID}).select('minerals gas ships troops').exec(function(err, targetObjects) {
+            GameObjects.findOne({owner: req.params.target}).select('minerals gas ships troops').exec(function(err, targetObjects) {
                 if (err) {
                     console.log('Game objects could not be loaded ' + err);
                     return;

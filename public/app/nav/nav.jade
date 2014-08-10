@@ -1,0 +1,15 @@
+.navbar-default(ng-controller="NavCtrl")
+    ul.nav.navbar-nav(ng-show="identity.isAuthenticated()")
+        li
+            a(href="#/overview/{{ identity.currentUser._id }}") Overview
+        li
+            a(href="#/buildings/{{ identity.currentUser._id }}") Buildings
+        li
+            a(href="#/resources/{{ identity.currentUser._id }}") Ships
+        li
+            a(href="#/resources/{{ identity.currentUser._id }}") Troops
+        li
+            a(href="#/resources/{{ identity.currentUser._id }}") Upgrades
+        li
+            a(href="#/resources/{{ identity.currentUser._id }}") Map
+

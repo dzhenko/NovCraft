@@ -10,9 +10,10 @@ var gameObjectsSchema = mongoose.Schema({
     updated: Number,
     tasks: [
         {
-            finishTime: Number,
+            time: Number,
             type: { type: String, enum: ['buildings', 'ships', 'troops', 'upgrades'] },
-            indexToAddTo: Number
+            indexToAddTo: Number,
+            created: { type : Number, default: (new Date()).getTime() }
         }
     ],
     // mineral gas energy supply troops ships lab - only indexes
@@ -32,8 +33,7 @@ var gameObjectsSchema = mongoose.Schema({
             ships: [Number],
             // number of cycles to attack
             turns : Number,
-            // needs to calculate return time
-            flightTime: Number
+            created: { type : Number, default: (new Date()).getTime() }
         }
     ],
     comebacks: [
@@ -43,7 +43,8 @@ var gameObjectsSchema = mongoose.Schema({
             // attacker's transport tier1 tier2 tier3 ships
             ships: [Number],
             // outcome of the battle may result in resources for the attacker
-            cargo: [Number]
+            cargo: [Number],
+            created: { type : Number, default: (new Date()).getTime() }
         }
     ],
     defences: [
@@ -51,7 +52,8 @@ var gameObjectsSchema = mongoose.Schema({
             // player coordinates
             source: [Number],
             // time of attack home
-            time: Number
+            time: Number,
+            created: { type : Number, default: (new Date()).getTime() }
         }
     ]
 });

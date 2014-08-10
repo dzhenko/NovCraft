@@ -1,5 +1,7 @@
 'use strict';
 
+var game = require('../game/');
+
 module.exports = {
     calculate: function(objects) {
         var mineralsCost = Math.round(game.buildings.mineralFactory.amount[objects.buildings[0]] * 15);

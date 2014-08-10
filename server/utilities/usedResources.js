@@ -1,6 +1,6 @@
 'use strict';
 
-var game = require('../game/index');
+var game = require('../game/');
 
 module.exports = {
     usedEnergy: function (objects) {

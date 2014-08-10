@@ -7,9 +7,8 @@ app.controller('LoginCtrl', function ($scope, $location, notifier, identity, aut
         auth.login(user).then(function (success) {
             if (success) {
                 notifier.success('Successful login!');
-                $('body').removeClass('zerg-back').removeClass('protoss-back').removeClass('terran-back')
-                    .addClass(identity.currentUser.race + '-back');
-                $location.path('/resources/'+ identity.currentUser._id)
+
+                $location.path('/overview/'+ identity.currentUser._id)
             }
             else {
                 notifier.error('Invalid username or password');
@@ -21,8 +20,6 @@ app.controller('LoginCtrl', function ($scope, $location, notifier, identity, aut
         auth.logout().then(function () {
             notifier.success('Successful logout');
             $scope.user = {};
-
-            $('body').removeClass('zerg-back').removeClass('protoss-back').removeClass('terran-back');
             $location.path('/');
         });
     }

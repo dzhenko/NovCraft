@@ -35,7 +35,7 @@
                     .col-md-6
                         input.form-control(id="password" type="password", placeholder="Password", ng-model="user.password", required)
                     .col-md-3
-                        .alert.alert-danger(ng-show="user.password.length < 6") Password must be at least 6 symbols
+                        .alert.alert-danger(ng-show="user.password.length < 6") Password is too short
                 .form-group
                     label.col-md-2.control-label(for="password2") Repeat password
                     .col-md-6

@@ -1,11 +1,12 @@
 extends includes/layout
 
 block main-content
-    header.nav.navbar-inverse.navbar-fixed-top
+    header.nav.navbar-default.navbar-fixed-top
         .container
             .navbar-header
                 a.navbar-brand(href="#/") NovCraft
             .navbar-collapse.collapse
+                div(ng-include="'partials/nav/nav'")
                 div(ng-include="'partials/account/login'")
 
     section
@@ -13,4 +14,4 @@ block main-content
 
     footer
         p.text-center.text-primary
-            | &copy NovCraft MEAN Application 2014 Powered by starcraft.wikia.com
+            | &copy NovCraft MEAN Application 2014 Powered by bootstrap & starcraft.wikia.com
