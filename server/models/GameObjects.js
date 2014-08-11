@@ -49,6 +49,7 @@ var gameObjectsSchema = mongoose.Schema({
     ],
     defences: [
         {
+            sourceID: { type: mongoose.Schema.ObjectId, ref: 'User' },
             // player coordinates
             source: [Number],
             // time of attack home

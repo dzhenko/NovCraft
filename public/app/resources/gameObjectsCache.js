@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('gameObjectsCache', function (GameObjectsResource, identity) {
+app.factory('GameObjectsCache', function (GameRequests) {
     var cachedGameObjects;
 
     function checkIfRefreshIsNeeded() {
@@ -12,6 +12,11 @@ app.factory('gameObjectsCache', function (GameObjectsResource, identity) {
         var needsRefresh = false;
         var i;
 
+        if (!cachedGameObjects.tasks) {
+            needsRefresh = true;
+            return;
+        }
+
         for (i = 0; i < cachedGameObjects.tasks.length; i++) {
             if (cachedGameObjects.tasks[i].time <= now) {
                 needsRefresh = true;
@@ -19,6 +24,12 @@ app.factory('gameObjectsCache', function (GameObjectsResource, identity) {
         }
 
         if (!needsRefresh) {
+
+            if (!cachedGameObjects.attacks) {
+                needsRefresh = true;
+                return;
+            }
+
             for (i = 0; i < cachedGameObjects.attacks.length; i++) {
                 if (cachedGameObjects.attacks[i].time <= now) {
                     needsRefresh = true;
@@ -27,6 +38,11 @@ app.factory('gameObjectsCache', function (GameObjectsResource, identity) {
         }
 
         if (!needsRefresh) {
+            if (!cachedGameObjects.defences) {
+                needsRefresh = true;
+                return;
+            }
+
             for (i = 0; i < cachedGameObjects.defences.length; i++) {
                 if (cachedGameObjects.defences[i].time <= now) {
                     needsRefresh = true;
@@ -52,13 +68,10 @@ app.factory('gameObjectsCache', function (GameObjectsResource, identity) {
             cachedGameObjects = undefined;
         },
         getGameObjectsForUser: function () {
-            var id = identity.currentUser._id;
-
             checkIfRefreshIsNeeded();
 
-            if (!cachedGameObjects || (new Date()).getTime() - cachedGameObjects.updated >= 120000 ||
-                cachedGameObjects.owner !== id) {
-                cachedGameObjects = GameObjectsResource.get({owner: id});
+            if (!cachedGameObjects || (new Date()).getTime() - cachedGameObjects.updated >= 120000) {
+                cachedGameObjects = GameRequests.getUserObjects();
             }
 
             return cachedGameObjects;

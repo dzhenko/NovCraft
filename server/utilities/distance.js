@@ -12,7 +12,7 @@ function get3DDistance(coord1, coord2) {
 }
 
 module.exports = {
-    milisecondsBetweenCoords: function(coord1, coord2) {
+    millisecondsBetweenCoords: function(coord1, coord2) {
         return Math.round(timePerClick * get3DDistance(coord1, coord2)) + takeOffMS;
     }
 };

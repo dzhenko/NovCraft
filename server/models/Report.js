@@ -5,6 +5,8 @@ var reportSchema = mongoose.Schema({
     owner: { type: mongoose.Schema.ObjectId, ref: 'User' },
     time: Date,
     win: Boolean,
+    enemy : [Number],
+    enemyID : { type: mongoose.Schema.ObjectId, ref: 'User' },
     stolen: [Number],
     attacker: {
         ships: [],

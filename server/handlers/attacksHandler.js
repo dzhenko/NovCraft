@@ -196,6 +196,9 @@ module.exports = {
             // reports dispatched to both players
             // sending to attacker
             report.owner = attacker.source;
+            report.enemy = defender.coordinates;
+            report.enemyID = defender.owner;
+
             Report.create(report, function (err) {
                 if (err) {
                     console.log('Failed to create report ' + err);
@@ -206,6 +209,8 @@ module.exports = {
                 if (!defender.fake) {
                     report.owner = defender.owner;
                     report.win = !report.win;
+                    report.enemy = attacker.sourceCoords;
+                    report.enemyID = attacker.source;
 
                     Report.create(report, function (err) {
                         if (err) {

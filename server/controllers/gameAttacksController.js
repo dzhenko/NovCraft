@@ -6,7 +6,7 @@ var GameObjects = require('mongoose').model('GameObjects'),
 module.exports = {
     // needs post with these three params req.params.targetID, req.params.ships, req.params.turns
     createAttack: function (req, res, next) {
-        GameObjects.findOne({owner: req.params.owner}).exec(function (err, userGameObjects) {
+        GameObjects.findOne({owner: req.user._id}).exec(function (err, userGameObjects) {
             if (err) {
                 console.log('Game objects could not be loaded ' + err);
                 return;
@@ -19,7 +19,7 @@ module.exports = {
                 return;
             }
 
-            GameObjects.findOne({owner: req.params.targetID}).exec(function (err, targetObjects) {
+            GameObjects.findOne({owner: req.params.target}).exec(function (err, targetObjects) {
                 if (err) {
                     console.log('Target objects could not be loaded ' + err);
                     return;
@@ -33,8 +33,7 @@ module.exports = {
                 }
 
                 // sync call
-                var success = userAttackCreatorHandler.createAttack(userGameObjects, targetObjects,
-                    req.params.targetID, req.params.ships, req.params.turns);
+                var success = userAttackCreatorHandler.createAttack(userGameObjects, targetObjects, req.body.ships, req.body.turns);
 
                 // TODO: react to this object
                 userGameObjects.save(function () {

@@ -26,8 +26,7 @@
                     h3.col-md-9 Cost
                         span.text-primary  {{ upgradesModel.cost.minerals[$index] }} minerals
                         span.text-success  {{ upgradesModel.cost.gas[$index] }} gas
-                    button.btn.btn-lg.btn-primary.col-md-3(ng-click="confirm($index)" data-toggle="modal" data-target="#confirmer" ng-hide="(gameObjects && filteredTasks.length >= buildingsModel[6].amount[gameObjects.buildings[6]]) || (gameObjects && !calculator.canAffordUpgrade(gameObjects, $index)) || (gameObjects && !calculator.upgradeInProgress(gameObjects, $index))") Upgrade
-                    button.btn.btn-lg.btn-danger.col-md-3(ng-disabled="true" ng-show="(gameObjects && filteredTasks.length >= buildingsModel[6].amount[gameObjects.buildings[6]]) || (gameObjects && !calculator.canAffordUpgrade(gameObjects, $index)) || (gameObjects && !calculator.upgradeInProgress(gameObjects, $index))") Already in progress
+                    button.btn.btn-lg.col-md-3(ng-disabled="btnDisabled[$index]" ng-class="btnClass[$index]" ng-click="confirm($index)" data-toggle="modal" data-target="#confirmer") {{ btnText[$index] }}
             .col-md-2.col-md-offset-1
                 img.pull-right(src="" ng-src="{{ upgrade.image }}" alt="image" height=150 width=150)
 

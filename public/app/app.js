@@ -70,6 +70,36 @@ app.config(function($routeProvider, $sceDelegateProvider) {
             controller: 'UpgradesCtrl',
             resolve: routeUserChecks.authenticated
         })
+        .when('/map', {
+            templateUrl: '/partials/map/map',
+            controller: 'MapCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/scan', {
+            templateUrl: '/partials/scan/scan',
+            controller: 'ScanCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/scan/:target', {
+            templateUrl: '/partials/scan/scanOverview',
+            controller: 'ScanOverviewCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/attack', {
+            templateUrl: '/partials/attack/attack',
+            controller: 'AttackCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/attack/:target', {
+            templateUrl: '/partials/attack/attackUser',
+            controller: 'AttackUserCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/reports', {
+            templateUrl: '/partials/reports/reports',
+            controller: 'ReportsCtrl',
+            resolve: routeUserChecks.authenticated
+        })
         .when('/', {
             templateUrl: '/partials/home/home',
             controller: 'HomeCtrl'

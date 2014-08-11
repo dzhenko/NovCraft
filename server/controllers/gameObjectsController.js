@@ -5,7 +5,7 @@ var GameObjects = require('mongoose').model('GameObjects'),
 
 module.exports = {
     getGameObjectsForUserId: function(req, res, next) {
-        GameObjects.findOne({owner: req.params.owner}).exec(function(err, userGameObjects) {
+        GameObjects.findOne({owner: req.user._id}).exec(function(err, userGameObjects) {
             if (err) {
                 console.log('Game objects could not be loaded ' + err);
             }

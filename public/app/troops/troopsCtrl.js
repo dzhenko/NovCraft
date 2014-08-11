@@ -1,21 +1,20 @@
 'use strict';
 
 app.controller('TroopsCtrl',
-    function ($scope, $interval, gameObjectsCache, RaceModel, identity, BuildingsModel, TroopsModel, Calculator, notifier, GameRequests) {
+    function ($scope, $rootScope, $interval, GameObjectsCache, RaceModel, identity, BuildingsModel, TroopsModel, Calculator, notifier, GameRequests) {
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.buildingsModel = BuildingsModel;
         $scope.troopsModel = TroopsModel;
 
-        $scope.calculator = Calculator;
-
         queryGameObjects();
         //TODO: add link in the attack source coords to scan player
 
-        // the client querries himself every 90 sec. The server is querried only once per 2 min
-        $interval(queryGameObjects, 1000 * 90);
+        // the client queries himself every X sec. The server is queried only once per 2 min
+        $rootScope.objectsRefreshSeconds = $rootScope.objectsRefreshSeconds || 30;
+        $interval(queryGameObjects, 1000 * $rootScope.objectsRefreshSeconds);
 
         function queryGameObjects() {
-            gameObjectsCache.getGameObjectsForUser().$promise.then(function (objects) {
+            GameObjectsCache.getGameObjectsForUser().$promise.then(function (objects) {
                 $scope.filteredTasks = objects.tasks
                     .filter(function (obj) {
                         return obj.type == 'troops'
@@ -29,27 +28,58 @@ app.controller('TroopsCtrl',
                 $scope.freeSupply = Calculator.freeSupply(objects);
                 $scope.mineralsPerMinute = Calculator.mineralsPerMinute(objects);
                 $scope.gasPerMinute = Calculator.gasPerMinute(objects);
+
+                refreshButtons();
             })
+        }
+
+        function refreshButtons() {
+            $scope.btnClass = [];
+            $scope.btnText = [];
+            $scope.btnDisabled = [];
+
+            for (var i = 0; i < TroopsModel.time.length; i++) {
+                if ($scope.filteredTasks.length >= BuildingsModel[4].amount[$scope.gameObjects.buildings[4]]) {
+                    $scope.btnClass.push('btn-danger');
+                    $scope.btnText.push('Training in progress');
+                    $scope.btnDisabled.push(true);
+                    continue;
+                }
+
+                var canAfford = Calculator.canAffordTroop($scope.gameObjects, i);
+
+                if (canAfford.answer) {
+                    $scope.btnClass.push('btn-success');
+                    $scope.btnText.push('Train');
+                    $scope.btnDisabled.push(false);
+                }
+                else {
+                    $scope.btnClass.push('btn-danger');
+                    $scope.btnText.push(canAfford.reason);
+                    $scope.btnDisabled.push(true);
+                }
+            }
         }
 
         var troopsIndex = -1;
         $scope.confirm = function (index) {
             troopsIndex = index;
-            $scope.confirmerText = Calculator.requiredResourcesMessage($scope.gameObjects, 'troops', index);
+            $scope.confirmerText = 'Training this ' + $scope.raceModel.troops[index].name +
+                Calculator.requiredResourcesMessage($scope.gameObjects, 'troops', index);
         };
 
         $scope.confirmerAccept = function () {
             GameRequests.createTask('troops', troopsIndex).then(function (response) {
                 if (response.success) {
                     notifier.success('Unit construction started');
-                    gameObjectsCache.refresh();
+                    GameObjectsCache.refresh();
                     queryGameObjects();
                 }
                 else {
                     notifier.error('Not enough minerals, gas or supply');
                 }
             }, function (error) {
-                alert(error)
+                console.log(error)
             })
         };
     });

@@ -1,22 +1,21 @@
 'use strict';
 
 app.controller('UpgradesCtrl',
-    function ($scope, $interval, gameObjectsCache, RaceModel, identity, BuildingsModel, UpgradesModel, Calculator, notifier, GameRequests) {
+    function ($scope, $rootScope, $interval, GameObjectsCache, RaceModel, identity, BuildingsModel, UpgradesModel, Calculator, notifier, GameRequests) {
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.buildingsModel = BuildingsModel;
         $scope.upgradesModel = UpgradesModel;
         $scope.Math = Math;
 
-        $scope.calculator = Calculator;
-
         queryGameObjects();
         //TODO: add link in the attack source coords to scan player
 
-        // the client querries himself every 90 sec. The server is querried only once per 2 min
-        $interval(queryGameObjects, 1000 * 90);
+        // the client queries himself every X sec. The server is queried only once per 2 min
+        $rootScope.objectsRefreshSeconds = $rootScope.objectsRefreshSeconds || 30;
+        $interval(queryGameObjects, 1000 * $rootScope.objectsRefreshSeconds);
 
         function queryGameObjects() {
-            gameObjectsCache.getGameObjectsForUser().$promise.then(function (objects) {
+            GameObjectsCache.getGameObjectsForUser().$promise.then(function (objects) {
                 $scope.filteredTasks = objects.tasks
                     .filter(function (obj) {
                         return obj.type == 'upgrades'
@@ -30,27 +29,58 @@ app.controller('UpgradesCtrl',
                 $scope.freeSupply = Calculator.freeSupply(objects);
                 $scope.mineralsPerMinute = Calculator.mineralsPerMinute(objects);
                 $scope.gasPerMinute = Calculator.gasPerMinute(objects);
+
+                refreshButtons();
             })
+        }
+
+        function refreshButtons() {
+            $scope.btnClass = [];
+            $scope.btnText = [];
+            $scope.btnDisabled = [];
+
+            for (var i = 0; i < UpgradesModel.multiplier.length; i++) {
+                if ($scope.filteredTasks.length >= BuildingsModel[6].amount[$scope.gameObjects.buildings[6]]) {
+                    $scope.btnClass.push('btn-danger');
+                    $scope.btnText.push('Upgrade in progress');
+                    $scope.btnDisabled.push(true);
+                    continue;
+                }
+
+                var canAfford = Calculator.canAffordUpgrade($scope.gameObjects, i);
+
+                if (canAfford.answer) {
+                    $scope.btnClass.push('btn-success');
+                    $scope.btnText.push('Upgrade');
+                    $scope.btnDisabled.push(false);
+                }
+                else {
+                    $scope.btnClass.push('btn-danger');
+                    $scope.btnText.push(canAfford.reason);
+                    $scope.btnDisabled.push(true);
+                }
+            }
         }
 
         var upgradesIndex = -1;
         $scope.confirm = function (index) {
             upgradesIndex = index;
-            $scope.confirmerText = Calculator.requiredResourcesMessage($scope.gameObjects, 'upgrades', index);
+            $scope.confirmerText = 'Upgrading the ' + $scope.upgradesModel.names[index].name +
+                Calculator.requiredResourcesMessage($scope.gameObjects, 'upgrades', index);
         };
 
         $scope.confirmerAccept = function () {
             GameRequests.createTask('upgrades', upgradesIndex).then(function (response) {
                 if (response.success) {
                     notifier.success('Upgrade started');
-                    gameObjectsCache.refresh();
+                    GameObjectsCache.refresh();
                     queryGameObjects();
                 }
                 else {
                     notifier.error('Not enough minerals or gas');
                 }
             }, function (error) {
-                alert(error)
+                console.log(error)
             })
         };
     });

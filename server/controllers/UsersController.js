@@ -84,7 +84,7 @@ module.exports = {
         }
     },
     getAllUsers: function (req, res) {
-        User.find({}).select('username coordinates race _id').exec(function (err, collection) {
+        User.find({}).select('username coordinates _id').exec(function (err, collection) {
             if (err) {
                 console.log('Users could not be loaded ' + err);
             }
@@ -120,13 +120,12 @@ module.exports = {
             userGameObjects.minerals = userGameObjects.minerals - costOfScan.minerals;
             userGameObjects.gas = userGameObjects.gas - costOfScan.gas;
 
-            GameObjects.findOne({owner: req.params.target}).select('minerals gas ships troops').exec(function(err, targetObjects) {
+            GameObjects.findOne({owner: req.params.target}).select('minerals gas ships troops coordinates').exec(function(err, targetObjects) {
                 if (err) {
                     console.log('Game objects could not be loaded ' + err);
                     return;
                 }
 
-                // TODO: react to this object
                 userGameObjects.save(function(){
                     res.send({
                         targetObjects : targetObjects,

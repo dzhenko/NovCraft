@@ -1,6 +1,22 @@
 'use strict';
 
 app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, UpgradesModel) {
+    function flightTime(objects, coords) {
+        var timePerClick = 18000000 / 1730;
+        var takeOffMS = 17 * 60000;
+
+        function get3DDistance(coord1, coord2) {
+            return Math.sqrt(
+                ((coord1[0] - coord2[0]) * (coord1[0] - coord2[0]) +
+                    (coord1[1] - coord2[1]) * (coord1[1] - coord2[1]) +
+                    (coord1[2] - coord2[2]) * (coord1[2] - coord2[2]))
+            )
+        }
+
+        return Math.round(timePerClick * get3DDistance(objects.coordinates, coords) *
+            (2 - UpgradesModel.multiplier[objects.upgrades[6]])) + takeOffMS;
+    }
+
     function freeEnergy(objects) {
         var indexes = objects.buildings;
         var energy = BuildingsModel[2].amount[indexes[2]];
@@ -63,6 +79,10 @@ app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, Upg
     }
 
     function requiredResources(objects, type, index) {
+        if (!objects) {
+            return;
+        }
+
         var cost = {
             time: requiredTime(objects, type, index)
         };
@@ -96,7 +116,7 @@ app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, Upg
 
         cost.time = convertToTime(cost.time);
 
-        var message = 'This ' + type.substring(0, type.length - 1) + ' will cost you';
+        var message = ' will cost you';
         for (var resource in cost) {
             if (cost.hasOwnProperty(resource)) {
                 message += ' ' + cost[resource] + ' ' + resource;
@@ -135,10 +155,21 @@ app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, Upg
         var energy = BuildingsModel[index].energy[objects.buildings[index] + 1];
 
         if (objects.minerals < cost) {
-            return false;
+            return {
+                answer: false,
+                reason: 'Not enough minerals'
+            }
+        }
+        else if (freeEnergy(objects) < energy) {
+            return {
+                answer: false,
+                reason: 'Not enough energy'
+            }
         }
 
-        return freeEnergy(objects) >= energy
+        return {
+            answer: true
+        }
     }
 
     function canAffordShip(objects, index) {
@@ -146,7 +177,28 @@ app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, Upg
         var gas = ShipsModel.gas[index];
         var supply = ShipsModel.supply[index];
 
-        return minerals <= objects.minerals && gas <= objects.gas && supply <= freeSupply(objects);
+        if (minerals > objects.minerals) {
+            return {
+                answer: false,
+                reason: 'Not enough minerals'
+            }
+        }
+        else if (gas > objects.gas) {
+            return {
+                answer: false,
+                reason: 'Not enough gas'
+            }
+        }
+        else if (supply > freeSupply(objects)) {
+            return {
+                answer: false,
+                reason: 'Not enough supply'
+            }
+        }
+
+        return {
+            answer: true
+        }
     }
 
     function canAffordTroop(objects, index) {
@@ -154,14 +206,50 @@ app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, Upg
         var gas = TroopsModel.gas[index];
         var supply = TroopsModel.supply[index];
 
-        return minerals <= objects.minerals && gas <= objects.gas && supply <= freeSupply(objects);
+        if (minerals > objects.minerals) {
+            return {
+                answer: false,
+                reason: 'Not enough minerals'
+            }
+        }
+        else if (gas > objects.gas) {
+            return {
+                answer: false,
+                reason: 'Not enough gas'
+            }
+        }
+        else if (supply > freeSupply(objects)) {
+            return {
+                answer: false,
+                reason: 'Not enough supply'
+            }
+        }
+
+        return {
+            answer: true
+        }
     }
 
     function canAffordUpgrade(objects, index) {
         var minerals = UpgradesModel.cost.minerals[index];
         var gas = UpgradesModel.cost.gas[index];
 
-        return minerals <= objects.minerals && gas <= objects.gas;
+        if (minerals > objects.minerals) {
+            return {
+                answer: false,
+                reason: 'Not enough minerals'
+            }
+        }
+        else if (gas > objects.gas) {
+            return {
+                answer: false,
+                reason: 'Not enough gas'
+            }
+        }
+
+        return {
+            answer: true
+        }
     }
 
     function upgradeInProgress(objects, index) {
@@ -185,6 +273,7 @@ app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, Upg
     return {
         freeEnergy: freeEnergy,
         freeSupply: freeSupply,
+        flightTime: flightTime,
         requiredResources: requiredResources,
         requiredResourcesMessage: requiredResourcesMessage,
         convertToTime: convertToTime,

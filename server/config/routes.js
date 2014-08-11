@@ -9,15 +9,16 @@ module.exports = function(app) {
     app.put('/api/users', auth.isAuthenticated, controllers.users.updateUser);
 
     // todo - this
-    app.post('/api/users-scan/:target', auth.isAuthenticated, controllers.users.scanUser);
+    app.get('/api/users-scan/:target', auth.isAuthenticated, controllers.users.scanUser);
 
-    app.get('/api/game-objects/:owner', auth.isAuthenticated, controllers.gameObjects.getGameObjectsForUserId);
+    app.get('/api/game-objects', auth.isAuthenticated, controllers.gameObjects.getGameObjectsForUserId);
 
-    // todo - this taskType, taskIndexToAddTo
-    app.post('/api/game-tasks/:owner', auth.isAuthenticated, controllers.gameTasks.createTask);
+    app.post('/api/game-tasks', auth.isAuthenticated, controllers.gameTasks.createTask);
 
-    // todo - this targetID, ships[], turns;
-    app.post('/api/game-attack/:owner', auth.isAuthenticated, controllers.gameAttacks.createAttack);
+    app.post('/api/game-attack/:target', auth.isAuthenticated, controllers.gameAttacks.createAttack);
+
+    // todo - reports and messages
+    app.get('/api/game-reports', auth.isAuthenticated, controllers.gameReports.getAll);
 
     app.get('/partials/:partialArea/:partialName', function (req, res) {
         res.render('../../public/app/' + req.params.partialArea+ '/' + req.params.partialName);

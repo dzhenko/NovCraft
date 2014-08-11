@@ -17,7 +17,7 @@ app.directive('timer', ['$compile', function ($compile) {
         controller: ['$scope', '$element', '$attrs', '$timeout', function ($scope, $element, $attrs, $timeout) {
 
             // Checking for trim function since IE8 doesn't have it
-            // If not a function, create tirm with RegEx to mimic native trim
+            // If not a function, create trim with RegEx to mimic native trim
             if (typeof String.prototype.trim !== 'function') {
                 String.prototype.trim = function () {
                     return this.replace(/^\s+|\s+$/g, '');

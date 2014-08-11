@@ -19,16 +19,14 @@
             h3.panel-title {{ building.name }}
         .panel-body
             .col-md-9
-                p.lead Level {{ gameObjects.buildings[$index] }}
-                p.lead Production {{ buildingsModel[$index].amount[gameObjects.buildings[$index]] }}
+                p.lead Level {{ gameObjects.buildings[$index] }} produces {{ buildingsModel[$index].amount[gameObjects.buildings[$index]] }}
                 p.lead {{ building.description }}
                 h3 Next Level will produce {{ buildingsModel[$index].amount[gameObjects.buildings[$index] + 1] }}
                 .row
                     h3.col-md-9 Cost
-                        span.text-primary  {{ buildingsModel[$index].cost[gameObjects.buildings[$index] + 1] }} minerals
-                        span.text-warning   {{ buildingsModel[$index].energy[gameObjects.buildings[$index] + 1] - buildingsModel[$index].energy[gameObjects.buildings[$index]] }} energy
-                    button.btn.btn-lg.btn-primary.col-md-3(ng-click="confirm($index)" data-toggle="modal" data-target="#confirmer" ng-hide="filteredTasks.length >0 || (gameObjects && !calculator.canAffordBuilding(gameObjects, $index))") Build
-                    button.btn.btn-lg.btn-danger.col-md-3(ng-disabled="true" ng-show="filteredTasks.length >0 || (gameObjects && !calculator.canAffordBuilding(gameObjects, $index))") Already in progress
+                        span.text-primary  {{ buildingCost[$index].minerals }} minerals
+                        span.text-warning   {{ buildingCost[$index].energy }} energy
+                    button.btn.btn-lg.col-md-3(ng-disabled="btnDisabled[$index]" ng-class="btnClass[$index]" ng-click="confirm($index)" data-toggle="modal" data-target="#confirmer") {{ btnText[$index] }}
             .col-md-2.col-md-offset-1
                 img.pull-right(src="" ng-src="{{ building.image }}" alt="image" height=250 width=250)
 

@@ -1,5 +1,5 @@
 'use strict';
 
-app.controller('NavCtrl', function ($scope, $location, notifier, identity) {
+app.controller('NavCtrl', function ($scope, identity) {
     $scope.identity = identity;
 });

@@ -1,7 +1,6 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    modelsExports = require('../../models'),
     attack = require('../../handlers/attacksHandler');
 
 function setUsersWithStats() {
@@ -41,10 +40,12 @@ function setUsersWithStats() {
             ];
             obj.defences = [
                 {
+                    sourceID: '53e777fd9efe98ec111e22c9',
                     source: [29, 998, 43],
                     time: (new Date()).getTime() + 1000 * 60 * 60 * 6
                 },
                 {
+                    sourceID: '53e777fd9efe98ec111e22c9',
                     source: [29, 998, 43],
                     time: (new Date()).getTime() + 1000 * 60 * 60 * 5
                 }
@@ -116,10 +117,12 @@ function setUsersWithStats() {
             ];
             obj.defences = [
                 {
+                    sourceID: '53e7777a9efe98ec111e22c7',
                     source: [29, 998, 43],
                     time: (new Date()).getTime() + 1000 * 60 * 60 * 7
                 },
                 {
+                    sourceID: '53e7777a9efe98ec111e22c7',
                     source: [29, 998, 43],
                     time: (new Date()).getTime() + 1000 * 60 * 60 * 6
                 }

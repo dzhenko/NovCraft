@@ -7,7 +7,7 @@ var GameObjects = require('mongoose').model('GameObjects'),
 module.exports = {
     // needs post with these two params req.body.taskType, req.body.taskIndexToAddTo
     createTask : function(req, res, next) {
-        GameObjects.findOne({owner: req.params.owner}).exec(function(err, userGameObjects) {
+        GameObjects.findOne({owner: req.user._id}).exec(function(err, userGameObjects) {
             if (err) {
                 console.log('Game objects could not be loaded ' + err);
                 return;
@@ -26,7 +26,6 @@ module.exports = {
             // sync call
             var success = userTasksCreatorHandler.createTask(userGameObjects, req.body.taskType, req.body.taskIndexToAddTo);
 
-            // TODO: react to this object
             userGameObjects.save(function(){
                 res.send({
                     userGameObjects : userGameObjects,
