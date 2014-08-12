@@ -83,7 +83,6 @@ app.controller('BuildingsCtrl',
                     notifier.success('Building started');
                     GameObjectsCache.refresh();
                     queryGameObjects();
-                    console.log(response);
                 }
                 else {
                     notifier.error('Not enough minerals or energy');
