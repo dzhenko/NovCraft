@@ -1,6 +1,6 @@
-'use strict';
-
 app.factory('UpgradesModel', function () {
+    'use strict';
+
     return {
         multiplier: [1.00, 1.01, 1.02, 1.03, 1.05, 1.07, 1.09, 1.12, 1.15, 1.18, 1.22, 1.26, 1.30],
         names: [

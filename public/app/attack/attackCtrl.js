@@ -1,6 +1,6 @@
-'use strict';
-
 app.controller('AttackCtrl', function ($scope, $location, GameRequests, notifier, identity) {
+    'use strict';
+
     $scope.coords = ['', '', ''];
     $scope.targetUsername = '';
 

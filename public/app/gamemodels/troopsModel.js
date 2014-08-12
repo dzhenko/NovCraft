@@ -1,6 +1,6 @@
-'use strict';
-
 app.factory('TroopsModel', function () {
+    'use strict';
+
     return {
         // tier1 tier2 tier3
         attack: [6, 19, 34],

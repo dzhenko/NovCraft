@@ -1,6 +1,6 @@
-'use strict';
-
 app.controller('SettingsCtrl', function ($scope, $location, identity, auth, notifier, $rootScope) {
+    'use strict';
+
     $scope.user = identity.currentUser;
 
     $scope.refreshRate = $rootScope.objectsRefreshSeconds;

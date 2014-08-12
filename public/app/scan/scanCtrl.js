@@ -1,6 +1,6 @@
-'use strict';
-
 app.controller('ScanCtrl', function ($scope, $location, $timeout, GameObjectsCache, Calculator, GameRequests, notifier, identity) {
+    'use strict';
+
     $scope.coords = ['','',''];
 
     GameObjectsCache.getGameObjectsForUser().$promise.then(function (objects) {

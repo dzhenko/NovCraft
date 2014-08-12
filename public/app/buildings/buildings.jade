@@ -19,7 +19,8 @@
             h3.panel-title {{ building.name }}
         .panel-body
             .col-md-9
-                p.lead Level {{ gameObjects.buildings[$index] }} produces {{ buildingsModel[$index].amount[gameObjects.buildings[$index]] }}
+                p.lead Level {{ gameObjects.buildings[$index] }}
+                    span.pull-right Produces {{ buildingsModel[$index].amount[gameObjects.buildings[$index]] }}
                 p.lead {{ building.description }}
                 h3 Next Level will produce {{ buildingsModel[$index].amount[gameObjects.buildings[$index] + 1] }}
                 .row

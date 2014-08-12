@@ -1,7 +1,8 @@
 'use strict';
 
 var GameObjects = require('mongoose').model('GameObjects'),
-    userAttackCreatorHandler = require('../handlers/userAttackCreatorHandler');
+    userAttackCreatorHandler = require('../handlers/userAttackCreatorHandler'),
+    attacksHandler = require('../handlers/attacksHandler');
 
 module.exports = {
     // needs post with these three params req.params.targetID, req.params.ships, req.params.turns
@@ -35,7 +36,6 @@ module.exports = {
                 // sync call
                 var success = userAttackCreatorHandler.createAttack(userGameObjects, targetObjects, req.body.ships, req.body.turns);
 
-                // TODO: react to this object
                 userGameObjects.save(function () {
                     res.send({
                         userGameObjects: userGameObjects,
@@ -44,5 +44,12 @@ module.exports = {
                 });
             })
         })
+    },
+    simulateAttack : function(req, res, next) {
+        var report = attacksHandler.simulateAttack(req.body.attacker, req.body.defender, req.body.turns);
+        res.send({
+            report: report,
+            success: true
+        });
     }
 };

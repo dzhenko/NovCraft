@@ -1,6 +1,6 @@
-'use strict';
-
 app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, UpgradesModel) {
+    'use strict';
+
     function flightTime(objects, coords) {
         var timePerClick = 18000000 / 1730;
         var takeOffMS = 17 * 60000;

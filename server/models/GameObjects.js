@@ -81,7 +81,7 @@ module.exports = {
             else {
                 console.log('----------------------------------------');
                 console.log('All Game Objects :');
-                console.log(JSON.stringify(objects));
+                console.log(objects);
             }
         })
     }

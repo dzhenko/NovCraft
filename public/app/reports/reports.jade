@@ -2,11 +2,7 @@
     .panel.panel-success
         .panel-body
             h3 All reports
-            .well.pull-right
-                .form-group
-                    .col-md-12
-                        input.form-control(id="searchTextFilter" placeholder="search" type="text", ng-model="searchReport" required)
-            table.table.table-hover.table-striped#reportsTable
+            table.table.table-hover.table-striped
                 thead
                     tr.success
                         th Enemy
@@ -18,16 +14,16 @@
                         th Attack
                         th Delete
                 tbody
-                    tr(ng-repeat="report in allReports track by $index | filter: searchReport")
+                    tr(ng-repeat="report in allReports | orderBy:'-created' track by $index")
                         td {{ report.enemy }}
                         td {{ report.win }}
-                        td {{ report.time }}
+                        td {{ report.created | date:'dd-MM HH:mm' }}
                         td
                             button.btn.btn-md.btn-success(ng-click="viewReport($index)" data-toggle="modal" data-target="#reportDetails")
                                 span.glyphicon.glyphicon-eye-open
                                 span View
                         td
-                            a.btn.btn-md.btn-primary(href="#/message/{{report.enemyID}}")
+                            a.btn.btn-md.btn-primary(href="#/message-create/{{report.enemyID}}")
                                 span.glyphicon.glyphicon-pencil.text-success
                                 span Message
                         td
@@ -55,9 +51,9 @@
                             span.text-success(ng-show="selectedReport.stolen[1] > 0")  {{ selectedReport.stolen[1] }} gas
                     p.lead.text-danger(ng-show="!selectedReport.win") You loose
 
-                    .panel.panel-success
+                    .panel(ng-class="attackerPanelClass")
                         .panel-heading
-                            h3.panel-title Destroyed units
+                            h3.panel-title {{attackerPanelHeading}}
                         .panel-body
                             p(ng-show="selectedReport.defender.troops[0][0] - selectedReport.defender.troops[selectedReport.defender.troops.length - 1][0] > 0")
                                 img(src="" ng-src="{{ raceModel.troops[0].image }}" alt="image" height=50 width=50)
@@ -81,9 +77,9 @@
                                 img(src="" ng-src="{{ raceModel.ships[3].image }}" alt="image" height=50 width=50)
                                 span.lead {{ selectedReport.defender.ships[0][3] - selectedReport.defender.ships[selectedReport.defender.ships.length - 1][3]}} {{ raceModel.ships[3].name }}s
 
-                    .panel.panel-danger
+                    .panel(ng-class="defenderPanelClass")
                         .panel-heading
-                            h3.panel-title Lost units
+                            h3.panel-title {{defenderPanelHeading}}
                         .panel-body
                             p(ng-show="selectedReport.attacker.ships[0][0] - selectedReport.attacker.ships[selectedReport.attacker.ships.length - 1][0] > 0")
                                 img(src="" ng-src="{{ raceModel.ships[0].image }}" alt="image" height=50 width=50)
@@ -104,7 +100,7 @@
                         .panel-body
                             .row
                                 .col-md-6.pull-left
-                                    p.text-success Damage : {{ Math.round(selectedReport.attacker.damage[$index]) }}
+                                    p(ng-class="attackerClass") Attacker Damage : {{ Math.round(selectedReport.attacker.damage[$index]) }}
                                     .row
                                         .col-md-6.pull-left(ng-show="selectedReport.attacker.ships[$index][0] > 0")
                                             img(src="" ng-src="{{ raceModel.ships[0].image }}" alt="image" height=50 width=50)
@@ -120,7 +116,7 @@
                                             img(src="" ng-src="{{ raceModel.ships[3].image }}" alt="image" height=50 width=50)
                                             p {{ selectedReport.attacker.ships[$index][3] }} {{ raceModel.ships[3].name }}s
                                 .col-md-6.pull-right
-                                    p.text-danger Damage : {{ Math.round(selectedReport.defender.damage[$index]) }}
+                                    p(ng-class="defenderClass") Defender Damage : {{ Math.round(selectedReport.defender.damage[$index]) }}
                                     .row
                                         .col-md-6.pull-left(ng-show="selectedReport.defender.troops[$index][0] > 0")
                                             img(src="" ng-src="{{ raceModel.troops[0].image }}" alt="image" height=50 width=50)

@@ -1,6 +1,5 @@
-'use strict';
-
 app.factory('auth', function($q, $http, identity, UsersResource) {
+    'use strict';
     return {
         signup: function(user) {
             var deferred = $q.defer();

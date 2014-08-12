@@ -1,6 +1,6 @@
-'use strict';
-
 app.factory('GameObjectsCache', function (GameRequests) {
+    'use strict';
+
     var cachedGameObjects;
 
     function checkIfRefreshIsNeeded() {
@@ -70,7 +70,7 @@ app.factory('GameObjectsCache', function (GameRequests) {
         getGameObjectsForUser: function () {
             checkIfRefreshIsNeeded();
 
-            if (!cachedGameObjects || (new Date()).getTime() - cachedGameObjects.updated >= 120000) {
+            if (!cachedGameObjects || (new Date()).getTime() - cachedGameObjects.updated >= 60000) {
                 cachedGameObjects = GameRequests.getUserObjects();
             }
 

@@ -1,6 +1,6 @@
-'use strict';
-
 app.factory('identity', function($window, UsersResource) {
+    'use strict';
+
     var user;
     if ($window.bootstrappedUserObject) {
         user = new UsersResource();

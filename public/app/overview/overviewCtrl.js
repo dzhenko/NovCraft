@@ -1,6 +1,6 @@
-'use strict';
+app.controller('OverviewCtrl', function ($scope, $rootScope, $interval, GameObjectsCache, RaceModel, identity, UpgradesModel, Calculator) {
+    'use strict';
 
-app.controller('OverviewCtrl', function($scope, $rootScope, $interval, GameObjectsCache, RaceModel, identity, UpgradesModel, Calculator) {
     $scope.raceModel = RaceModel[identity.currentUser.race];
     $scope.raceModel.upgrades = UpgradesModel.names;
 
@@ -24,15 +24,31 @@ app.controller('OverviewCtrl', function($scope, $rootScope, $interval, GameObjec
     }
 
     $scope.showAttackInfo = function (index) {
-        $scope.attackInfoText = 'Your attack consists of';
+        $scope.additionalInfoHeader = "Attack info";
+        $scope.additionalInfoText = 'Your attack consists of';
 
         for (var i = 0; i < $scope.raceModel.ships.length; i++) {
             if ($scope.gameObjects.attacks[index].ships[i] == 0) {
                 continue;
             }
-            $scope.attackInfoText += ' ' + $scope.gameObjects.attacks[index].ships[i] + ' ' + $scope.raceModel.ships[i].name + 's';
+            $scope.additionalInfoText += ' ' + $scope.gameObjects.attacks[index].ships[i] + ' ' + $scope.raceModel.ships[i].name + 's';
         }
 
-        $scope.attackInfoText += ' and will continue for ' + $scope.gameObjects.attacks[index].turns + ' turns.';
+        $scope.additionalInfoText += ' and will continue for ' + $scope.gameObjects.attacks[index].turns + ' turns.';
+    };
+
+    $scope.showComebackInfo = function (index) {
+        $scope.additionalInfoHeader = "Comeback info";
+        $scope.additionalInfoText = 'Your comeback consists of';
+
+        for (var i = 0; i < $scope.raceModel.ships.length; i++) {
+            if ($scope.gameObjects.comebacks[index].ships[i] == 0) {
+                continue;
+            }
+            $scope.additionalInfoText += ' ' + $scope.gameObjects.comebacks[index].ships[i] + ' ' + $scope.raceModel.ships[i].name + 's';
+        }
+        //{{ comeback.cargo[0] }} minerals and {{ comeback.cargo[1] }} gas
+        $scope.additionalInfoText += ' and has stolen  ' + $scope.gameObjects.comebacks[index].cargo[0] + ' minerals and ' +
+            $scope.gameObjects.comebacks[index].cargo[1] + ' gas.';
     }
 });

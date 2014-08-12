@@ -120,7 +120,7 @@ module.exports = {
             userGameObjects.minerals = userGameObjects.minerals - costOfScan.minerals;
             userGameObjects.gas = userGameObjects.gas - costOfScan.gas;
 
-            GameObjects.findOne({owner: req.params.target}).select('minerals gas ships troops coordinates').exec(function(err, targetObjects) {
+            GameObjects.findOne({owner: req.params.target}).select('minerals gas ships troops coordinates owner').exec(function(err, targetObjects) {
                 if (err) {
                     console.log('Game objects could not be loaded ' + err);
                     return;

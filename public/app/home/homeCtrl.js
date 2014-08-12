@@ -1,6 +1,5 @@
-'use strict';
-
 app.controller('HomeCtrl', function($scope) {
-    // $scope.courses-removeME = coursesCache.query();
+    'use strict';
+
     $scope.courses = [];
 });

@@ -8,7 +8,6 @@ var mongoose = require('mongoose'),
 
 function handleAttack(attacker, defender, turns) {
     var report = {
-        time: new Date(),
         win: false,
         attacker: {
             ships: [],
@@ -128,10 +127,10 @@ module.exports = {
 
             if (!defender) {
                 defender = {
-                    troops: [0,0,0],
-                    groundUpgrades: [0,0,0],
-                    ships: [0,0,0,0],
-                    airUpgrades: [0,0,0],
+                    troops: [0, 0, 0],
+                    groundUpgrades: [0, 0, 0],
+                    ships: [0, 0, 0, 0],
+                    airUpgrades: [0, 0, 0],
                     minerals: 0,
                     gas: 0,
                     fake: true
@@ -174,23 +173,20 @@ module.exports = {
 
             // if there is cargo capacity there must be alive ships - return them
             if (originalCargoCapacity > 0 && attacker.source) {
-                GameObjects.findOne({owner: attacker.source}).exec(function (err, attackerGameObjects) {
-                    if (err) {
-                        console.log('Game objects for target could not be loaded ' + err);
-                        return;
-                    }
-
-                    var comeback = {
+                GameObjects.findByIdAndUpdate(
+                    attacker.attackerObjectsID,
+                    {$push: {"comebacks": {
                         time: (flightTime + (new Date()).getTime()),
                         ships: report.attacker.ships[report.attacker.ships.length - 1],
-                        cargo: [stolenMinerals, stolenGas]
-                    };
-
-                    attackerGameObjects.comebacks.push(comeback);
-
-                    // async - doesn't matter
-                    attackerGameObjects.save();
-                });
+                        cargo: [stolenMinerals, stolenGas]}}
+                    },
+                    {safe: true, upsert: true},
+                    function (err, model) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    }
+                );
             }
 
             // reports dispatched to both players
@@ -211,6 +207,7 @@ module.exports = {
                     report.win = !report.win;
                     report.enemy = attacker.sourceCoords;
                     report.enemyID = attacker.source;
+                    report.own = false;
 
                     Report.create(report, function (err) {
                         if (err) {
@@ -222,6 +219,6 @@ module.exports = {
         });
     },
     simulateAttack: function (attacker, defender, turns) {
-        var report = this.handleAttack(attacker, defender, turns);
+        return handleAttack(attacker, defender, turns);
     }
 };

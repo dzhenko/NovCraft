@@ -13,6 +13,4 @@ require('./server/config/mongoose')(config);
 require('./server/config/passport')();
 require('./server/config/routes')(app);
 
-console.log('Server running on port ' + config.port + ' ...');
-console.log('Node environment is ' + env);
 app.listen(config.port);

@@ -3,9 +3,10 @@ var mongoose = require('mongoose');
 
 var messageSchema = mongoose.Schema({
     owner: { type: mongoose.Schema.ObjectId, ref: 'User' },
+    fromID : { type: mongoose.Schema.ObjectId, ref: 'User' },
     from: String,
-    date: Date,
-    text: Number
+    created: { type : Number, default: (new Date()).getTime() },
+    text: String
 });
 
 var Message = mongoose.model('Message', messageSchema);

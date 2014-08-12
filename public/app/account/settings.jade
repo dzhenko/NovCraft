@@ -10,7 +10,7 @@
                         input.form-control(id="refresh" type="number", ng-model="refreshRate" required)
                 .form-group
                     .col-md-6.col-md-offset-2
-                        p.lead Game refresh rate determines how often your computer checks for new events. Best gameplay is at 1 second, but around 15 is also ok. Default is 30.
+                        p.lead Game refresh rate determines how often your computer checks for new events. Best gameplay is at 1 second, but around 15 is also ok. Default is 3.
                 .pull-right.col-md-6
                     button.btn.btn-primary(ng-click="updateRefreshRate(refreshRate)", ng-disabled="profileForm.$invalid || refreshRate < 1") Save
                     a.btn.btn-danger(href="#/overview") Cancel

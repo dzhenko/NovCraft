@@ -1,6 +1,6 @@
-'use strict';
-
 app.factory('ShipsModel', function () {
+    'use strict';
+
     return {
         // transport tier1 tier2 tier3
         attack: [1, 15, 59, 99],

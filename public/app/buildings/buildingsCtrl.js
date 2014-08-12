@@ -1,7 +1,7 @@
-'use strict';
-
 app.controller('BuildingsCtrl',
     function ($scope, $rootScope, $interval, GameObjectsCache, RaceModel, identity, BuildingsModel, Calculator, notifier, GameRequests) {
+        'use strict';
+
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.buildingsModel = BuildingsModel;
 

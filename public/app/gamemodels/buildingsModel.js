@@ -1,6 +1,6 @@
-'use strict';
-
 app.factory('BuildingsModel', function () {
+    'use strict';
+
     return [
         {
             //index 0 - minerals

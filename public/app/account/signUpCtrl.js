@@ -1,6 +1,6 @@
-'use strict';
-
 app.controller('SignUpCtrl', function($scope, $location, auth, notifier) {
+    'use strict';
+
     $scope.user = {};
 
     $scope.signup = function(user) {

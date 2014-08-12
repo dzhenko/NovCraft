@@ -1,8 +1,6 @@
-'use strict';
-
-// TODO: make it a real objects of races of task types of arrays
-
 app.factory('RaceModel', function() {
+    'use strict';
+
     return {
         protoss: {
             buildings: [

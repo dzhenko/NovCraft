@@ -1,7 +1,7 @@
-'use strict';
-
 app.controller('UpgradesCtrl',
     function ($scope, $rootScope, $interval, GameObjectsCache, RaceModel, identity, BuildingsModel, UpgradesModel, Calculator, notifier, GameRequests) {
+        'use strict';
+
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.buildingsModel = BuildingsModel;
         $scope.upgradesModel = UpgradesModel;
@@ -40,24 +40,29 @@ app.controller('UpgradesCtrl',
             $scope.btnDisabled = [];
 
             for (var i = 0; i < UpgradesModel.multiplier.length; i++) {
-                if ($scope.filteredTasks.length >= BuildingsModel[6].amount[$scope.gameObjects.buildings[6]]) {
+                if (BuildingsModel[6].amount[$scope.gameObjects.buildings[6]] == 0) {
+                    $scope.btnClass.push('btn-danger');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[6].name + ' first');
+                    $scope.btnDisabled.push(true);
+                }
+                else if ($scope.filteredTasks.length >= BuildingsModel[6].amount[$scope.gameObjects.buildings[6]]) {
                     $scope.btnClass.push('btn-danger');
                     $scope.btnText.push('Upgrade in progress');
                     $scope.btnDisabled.push(true);
-                    continue;
-                }
-
-                var canAfford = Calculator.canAffordUpgrade($scope.gameObjects, i);
-
-                if (canAfford.answer) {
-                    $scope.btnClass.push('btn-success');
-                    $scope.btnText.push('Upgrade');
-                    $scope.btnDisabled.push(false);
                 }
                 else {
-                    $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push(canAfford.reason);
-                    $scope.btnDisabled.push(true);
+                    var canAfford = Calculator.canAffordUpgrade($scope.gameObjects, i);
+
+                    if (canAfford.answer) {
+                        $scope.btnClass.push('btn-success');
+                        $scope.btnText.push('Upgrade');
+                        $scope.btnDisabled.push(false);
+                    }
+                    else {
+                        $scope.btnClass.push('btn-danger');
+                        $scope.btnText.push(canAfford.reason);
+                        $scope.btnDisabled.push(true);
+                    }
                 }
             }
         }

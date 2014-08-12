@@ -2,12 +2,12 @@
     .jumbotron.row
         p.col-md-4 Scan report for {{ enemy.coordinates }}
         a.btn.btn-md.btn-primary.col-md-2
-            span.glyphicon.glyphicon-pencil
+            span.glyphicon.glyphicon-pencil(href="#/message-create/{{enemy.owner}}")
             | Send Message
-        a.btn.btn-md.btn-warning.col-md-2.col-md-offset-1
+        a.btn.btn-md.btn-warning.col-md-2.col-md-offset-1(href="#/attack-simulate")
             span.glyphicon.glyphicon-flag
             | Simulate attack
-        a.btn.btn-md.btn-danger.col-md-2.col-md-offset-1
+        a.btn.btn-md.btn-danger.col-md-2.col-md-offset-1(href="#/attack/{{enemy.owner}}")
             span.glyphicon.glyphicon-screenshot
             | Send Attack
     .row

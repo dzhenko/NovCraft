@@ -24,15 +24,4 @@ module.exports = function(app, config) {
     app.use(passport.session());
 
     app.use(express.static(config.rootPath + '/public'));
-
-    //test that server saves you are logged in middleware
-//    app.use(function(req, res, next) {
-//        if (req.user) {
-//            console.log(req.user.username);
-//        }
-//
-//        next();
-//    })
-
-
 };

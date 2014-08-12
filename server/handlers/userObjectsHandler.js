@@ -75,6 +75,7 @@ module.exports = {
 
                 // call async func and remove from array
                 attackHandler.handleAttackForTargetId({
+                        attackerObjectsID: objects._id,
                         sourceCoords: objects.coordinates,
                         source: objects.owner,
                         ships: [ships[0], ships[1], ships[2], ships[3]],

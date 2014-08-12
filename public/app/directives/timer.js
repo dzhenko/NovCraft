@@ -1,5 +1,3 @@
-'use strict';
-
 // http://siddii.github.io/angular-timer/
 app.directive('timer', ['$compile', function ($compile) {
     return  {

@@ -1,7 +1,7 @@
-'use strict';
-
 app.controller('TroopsCtrl',
     function ($scope, $rootScope, $interval, GameObjectsCache, RaceModel, identity, BuildingsModel, TroopsModel, Calculator, notifier, GameRequests) {
+        'use strict';
+
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.buildingsModel = BuildingsModel;
         $scope.troopsModel = TroopsModel;
@@ -39,24 +39,29 @@ app.controller('TroopsCtrl',
             $scope.btnDisabled = [];
 
             for (var i = 0; i < TroopsModel.time.length; i++) {
-                if ($scope.filteredTasks.length >= BuildingsModel[4].amount[$scope.gameObjects.buildings[4]]) {
+                if (BuildingsModel[4].amount[$scope.gameObjects.buildings[4]] == 0) {
+                    $scope.btnClass.push('btn-danger');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[4].name + ' first');
+                    $scope.btnDisabled.push(true);
+                }
+                else if ($scope.filteredTasks.length >= BuildingsModel[4].amount[$scope.gameObjects.buildings[4]]) {
                     $scope.btnClass.push('btn-danger');
                     $scope.btnText.push('Training in progress');
                     $scope.btnDisabled.push(true);
-                    continue;
-                }
-
-                var canAfford = Calculator.canAffordTroop($scope.gameObjects, i);
-
-                if (canAfford.answer) {
-                    $scope.btnClass.push('btn-success');
-                    $scope.btnText.push('Train');
-                    $scope.btnDisabled.push(false);
                 }
                 else {
-                    $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push(canAfford.reason);
-                    $scope.btnDisabled.push(true);
+                    var canAfford = Calculator.canAffordTroop($scope.gameObjects, i);
+
+                    if (canAfford.answer) {
+                        $scope.btnClass.push('btn-success');
+                        $scope.btnText.push('Train');
+                        $scope.btnDisabled.push(false);
+                    }
+                    else {
+                        $scope.btnClass.push('btn-danger');
+                        $scope.btnText.push(canAfford.reason);
+                        $scope.btnDisabled.push(true);
+                    }
                 }
             }
         }

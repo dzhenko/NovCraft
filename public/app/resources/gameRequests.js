@@ -1,14 +1,5 @@
-'use strict';
-
 app.factory('GameRequests', function($q, $http, $resource, UsersResource) {
-//    // targetID
-//    var scanUserResource = $resource('/api/users-scan/:target', {owner:'@owner'});
-//
-//    // taskType, taskIndexToAddTo
-//    var createTaskResource = $resource('/api/game-tasks/:owner', {owner:'@owner'});
-//
-//    // targetID, ships[], turns;
-//    var createAttackResource = $resource('/api/game-attack/:owner', {owner:'@owner'});
+    'use strict';
 
     function makeRequest(url, data) {
         data = data || {};
@@ -58,7 +49,6 @@ app.factory('GameRequests', function($q, $http, $resource, UsersResource) {
                 if (!users) {
                     deferred.reject('No such user exists');
                 }
-                console.log(users);
                 deferred.resolve(users);
             });
 
@@ -67,10 +57,26 @@ app.factory('GameRequests', function($q, $http, $resource, UsersResource) {
         getUserReports: function() {
             return getRequest('/api/game-reports');
         },
+        getUserMessages: function() {
+            return getRequest('/api/game-messages');
+        },
+        createMessage: function(targetID, textToSend) {
+            return makeRequest('/api/game-messages', {
+                targetID: targetID.target,
+                textToSend : textToSend
+            });
+        },
         createAttack: function(targetID, ships, turns) {
             return makeRequest('/api/game-attack/' + targetID, {
                 ships : ships,
                 turns: turns
+            });
+        },
+        simulateAttack: function(attacker, defender, turns) {
+            return makeRequest('/api/game-attack-simulate', {
+                attacker : attacker,
+                turns: turns,
+                defender: defender
             });
         },
         findUserIdByCoords: function(coords) {

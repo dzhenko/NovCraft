@@ -1,7 +1,7 @@
-'use strict';
-
 app.controller('ShipsCtrl',
     function ($scope, $rootScope, $interval, GameObjectsCache, RaceModel, identity, BuildingsModel, ShipsModel, Calculator, notifier, GameRequests) {
+        'use strict';
+
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.buildingsModel = BuildingsModel;
         $scope.shipsModel = ShipsModel;
@@ -40,24 +40,29 @@ app.controller('ShipsCtrl',
             $scope.btnDisabled = [];
 
             for (var i = 0; i < ShipsModel.time.length; i++) {
-                if ($scope.filteredTasks.length >= BuildingsModel[5].amount[$scope.gameObjects.buildings[5]]) {
+                if (BuildingsModel[5].amount[$scope.gameObjects.buildings[5]] == 0) {
+                    $scope.btnClass.push('btn-danger');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[5].name + ' first');
+                    $scope.btnDisabled.push(true);
+                }
+                else if ($scope.filteredTasks.length >= BuildingsModel[5].amount[$scope.gameObjects.buildings[5]]) {
                     $scope.btnClass.push('btn-danger');
                     $scope.btnText.push('Building in progress');
                     $scope.btnDisabled.push(true);
-                    continue;
-                }
-
-                var canAfford = Calculator.canAffordShip($scope.gameObjects, i);
-
-                if (canAfford.answer) {
-                    $scope.btnClass.push('btn-success');
-                    $scope.btnText.push('Construct');
-                    $scope.btnDisabled.push(false);
                 }
                 else {
-                    $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push(canAfford.reason);
-                    $scope.btnDisabled.push(true);
+                    var canAfford = Calculator.canAffordShip($scope.gameObjects, i);
+
+                    if (canAfford.answer) {
+                        $scope.btnClass.push('btn-success');
+                        $scope.btnText.push('Construct');
+                        $scope.btnDisabled.push(false);
+                    }
+                    else {
+                        $scope.btnClass.push('btn-danger');
+                        $scope.btnText.push(canAfford.reason);
+                        $scope.btnDisabled.push(true);
+                    }
                 }
             }
         }

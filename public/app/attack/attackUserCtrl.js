@@ -1,6 +1,6 @@
-'use strict';
-
 app.controller('AttackUserCtrl', function ($scope, $location, $routeParams, ShipsModel, GameObjectsCache, GameRequests, RaceModel , notifier, identity) {
+    'use strict';
+
     $scope.selectTurns = 10;
     $scope.raceModel = RaceModel[identity.currentUser.race];
     $scope.shipsModel = ShipsModel;
@@ -23,8 +23,6 @@ app.controller('AttackUserCtrl', function ($scope, $location, $routeParams, Ship
     };
 
     $scope.confirmerAccept = function () {
-        console.log($scope.ships);
-        console.log($scope.selectTurns);
         GameRequests.createAttack($routeParams.target, $scope.ships, $scope.selectTurns).then(function(response) {
             if (response.success) {
                 notifier.success('Attack sent');

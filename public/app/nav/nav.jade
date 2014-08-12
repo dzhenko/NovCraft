@@ -3,15 +3,22 @@
         li
             a(href="#/overview") Overview
         li
-            a(href="#/buildings") Buildings
-        li
-            a(href="#/ships") Ships
-        li
-            a(href="#/troops") Troops
-        li
-            a(href="#/upgrades") Upgrades
-        li
             a(href="#/map") Map
+        li.dropdown
+            a.dropdown-toggle(href="" data-toggle="dropdown") Build
+                span.caret
+            ul.dropdown-menu
+                li
+                    a(href="#/buildings") Buildings
+                li.divider
+                li
+                    a(href="#/ships") Ships
+                li.divider
+                li
+                    a(href="#/troops") Troops
+                li.divider
+                li
+                    a(href="#/upgrades") Upgrades
         li.dropdown
             a.dropdown-toggle(href="" data-toggle="dropdown") Actions
                 span.caret
@@ -19,6 +26,10 @@
                 li
                     a(href="#/scan") Scan
                         span.glyphicon.glyphicon-search
+                li.divider
+                li
+                    a(href="#/attack-simulate") Simulate Attack
+                        span.glyphicon.glyphicon-flag
                 li.divider
                 li
                     a(href="#/attack") Attack
@@ -30,9 +41,9 @@
                 span.caret
             ul.dropdown-menu
                 li
-                    a(href="#/scan") Create
+                    a(href="#/message-create") Create
                         span.glyphicon.glyphicon-pencil
                 li.divider
                 li
-                    a(href="#/scan") Read
+                    a(href="#/messages") Read
                         span.glyphicon.glyphicon-book

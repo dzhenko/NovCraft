@@ -1,9 +1,8 @@
-'use strict';
-
-// only one app so name is app
 var app = angular.module('app', ['ngResource', 'ngRoute']).value('toastr', toastr);
 
 app.config(function($routeProvider, $sceDelegateProvider) {
+    'use strict';
+
     $sceDelegateProvider.resourceUrlWhitelist([
         'self',
         'http://img*.wikia.nocookie.net/**'
@@ -95,9 +94,29 @@ app.config(function($routeProvider, $sceDelegateProvider) {
             controller: 'AttackUserCtrl',
             resolve: routeUserChecks.authenticated
         })
+        .when('/attack-simulate', {
+            templateUrl: '/partials/attack/simulateAttack',
+            controller: 'SimulateAttackCtrl',
+            resolve: routeUserChecks.authenticated
+        })
         .when('/reports', {
             templateUrl: '/partials/reports/reports',
             controller: 'ReportsCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/messages', {
+            templateUrl: '/partials/message/messageView',
+            controller: 'MessageViewCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/message-create', {
+            templateUrl: '/partials/message/message',
+            controller: 'MessageCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/message-create/:target', {
+            templateUrl: '/partials/message/messageCreate',
+            controller: 'MessageCreateCtrl',
             resolve: routeUserChecks.authenticated
         })
         .when('/', {
@@ -108,6 +127,8 @@ app.config(function($routeProvider, $sceDelegateProvider) {
 });
 
 app.run(function($rootScope, $location) {
+    'use strict';
+
     $rootScope.$on('$routeChangeError', function(ev, current, previous, rejection) {
         if (rejection === 'not authorized') {
             $location.path('/');
