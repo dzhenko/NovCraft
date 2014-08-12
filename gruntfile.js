@@ -15,7 +15,7 @@
 					'public/app/resources/*.js',
 					'public/app/**/*.js',
 				],
-				dest: 'public/app/all.js'
+				dest: 'public/all.js'
 			}
 		}
 });

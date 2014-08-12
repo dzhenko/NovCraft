@@ -45,6 +45,22 @@ module.exports = {
         // defences - remove warnings if they have happened
         for (i = objects.defences.length - 1; i >= 0; i--) {
             if (objects.defences[i].time <= now) {
+                // async - doesnt matter
+                GameObjects.findOne({owner: objects.defences[i].sourceID}).exec(function(err, defenderGameObjects) {
+                    if (err) {
+                        console.log('Game objects could not be loaded ' + err);
+                    }
+
+                    if (!userGameObjects) {
+                        console.log('Un-existing user required his game objects');
+                        res.status(404);
+                        res.end();
+                    }
+
+                    // sync call
+                    userObjectsHandler.refreshUserGameObjects(defenderGameObjects);
+                });
+
                 objects.defences.splice(i, 1);
             }
         }
