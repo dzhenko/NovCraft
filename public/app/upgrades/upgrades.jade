@@ -24,8 +24,8 @@
                 h3 Next Level will give {{ Math.round((upgradesModel.multiplier[gameObjects.upgrades[$index] + 1] -1) * 100) }} %
                 .row
                     h3.col-md-9 Cost
-                        span.text-primary  {{ upgradesModel.cost.minerals[$index] }} minerals
-                        span.text-success  {{ upgradesModel.cost.gas[$index] }} gas
+                        span.text-primary  {{ upgradesModel.cost.minerals[gameObjects.upgrades[$index] + 1] }} minerals
+                        span.text-success  {{ upgradesModel.cost.gas[gameObjects.upgrades[$index] + 1] }} gas
                     button.btn.btn-lg.col-md-3(ng-disabled="btnDisabled[$index]" ng-class="btnClass[$index]" ng-click="confirm($index)" data-toggle="modal" data-target="#confirmer") {{ btnText[$index] }}
             .col-md-2.col-md-offset-1
                 img.pull-right(src="" ng-src="{{ upgrade.image }}" alt="image" height=150 width=150)

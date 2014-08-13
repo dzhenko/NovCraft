@@ -1691,6 +1691,11 @@ app.directive('timer', ['$compile', function ($compile) {
                     $scope.btnDisabled.push(true);
                     continue;
                 }
+                else if ($scope.gameObjects.buildings[i] == BuildingsModel.length - 1) {
+                    $scope.btnClass.push('btn-success');
+                    $scope.btnText.push('Max level');
+                    $scope.btnDisabled.push(true);
+                }
 
                 var canAfford = Calculator.canAffordBuilding($scope.gameObjects, i);
 
@@ -2205,6 +2210,11 @@ app.directive('timer', ['$compile', function ($compile) {
                 if (BuildingsModel[6].amount[$scope.gameObjects.buildings[6]] == 0) {
                     $scope.btnClass.push('btn-danger');
                     $scope.btnText.push('Build ' + $scope.raceModel.buildings[6].name);
+                    $scope.btnDisabled.push(true);
+                }
+                else if ($scope.gameObjects.upgrades[i] == UpgradesModel.multiplier.length - 1) {
+                    $scope.btnClass.push('btn-success');
+                    $scope.btnText.push('Max level');
                     $scope.btnDisabled.push(true);
                 }
                 else if ($scope.filteredTasks.length >= BuildingsModel[6].amount[$scope.gameObjects.buildings[6]]) {

@@ -54,6 +54,11 @@ app.controller('BuildingsCtrl',
                     $scope.btnDisabled.push(true);
                     continue;
                 }
+                else if ($scope.gameObjects.buildings[i] == BuildingsModel.length - 1) {
+                    $scope.btnClass.push('btn-success');
+                    $scope.btnText.push('Max level');
+                    $scope.btnDisabled.push(true);
+                }
 
                 var canAfford = Calculator.canAffordBuilding($scope.gameObjects, i);
 
