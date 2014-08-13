@@ -42,7 +42,7 @@ app.controller('UpgradesCtrl',
             for (var i = 0; i < UpgradesModel.multiplier.length; i++) {
                 if (BuildingsModel[6].amount[$scope.gameObjects.buildings[6]] == 0) {
                     $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[6].name + ' first');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[6].name);
                     $scope.btnDisabled.push(true);
                 }
                 else if ($scope.filteredTasks.length >= BuildingsModel[6].amount[$scope.gameObjects.buildings[6]]) {

@@ -152,7 +152,7 @@ app.factory('Calculator', function (BuildingsModel, ShipsModel, TroopsModel, Upg
 
     function canAffordBuilding(objects, index) {
         var cost = BuildingsModel[index].cost[objects.buildings[index] + 1];
-        var energy = BuildingsModel[index].energy[objects.buildings[index] + 1];
+        var energy = BuildingsModel[index].energy[objects.buildings[index] + 1] - BuildingsModel[index].energy[objects.buildings[index]];
 
         if (objects.minerals < cost) {
             return {

@@ -1161,7 +1161,7 @@ app.directive('timer', ['$compile', function ($compile) {
 
     function canAffordBuilding(objects, index) {
         var cost = BuildingsModel[index].cost[objects.buildings[index] + 1];
-        var energy = BuildingsModel[index].energy[objects.buildings[index] + 1];
+        var energy = BuildingsModel[index].energy[objects.buildings[index] + 1] - BuildingsModel[index].energy[objects.buildings[index]];
 
         if (objects.minerals < cost) {
             return {
@@ -1626,7 +1626,6 @@ app.directive('timer', ['$compile', function ($compile) {
         };
 
         GameRequests.simulateAttack(attacker, defender, $scope.selectSimulatedTurns).then(function(response){
-            console.log(response);
             $scope.simulatedReport = response.report;
         },function(error) {
             console.log('error fetching simulated report ' + error);
@@ -1971,8 +1970,6 @@ app.directive('timer', ['$compile', function ($compile) {
 
         notifier.success('Scan was successful');
 
-        console.log(response);
-
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.enemy = response.targetObjects;
 
@@ -2025,7 +2022,7 @@ app.directive('timer', ['$compile', function ($compile) {
             for (var i = 0; i < ShipsModel.time.length; i++) {
                 if (BuildingsModel[5].amount[$scope.gameObjects.buildings[5]] == 0) {
                     $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[5].name + ' first');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[5].name);
                     $scope.btnDisabled.push(true);
                 }
                 else if ($scope.filteredTasks.length >= BuildingsModel[5].amount[$scope.gameObjects.buildings[5]]) {
@@ -2114,7 +2111,7 @@ app.directive('timer', ['$compile', function ($compile) {
             for (var i = 0; i < TroopsModel.time.length; i++) {
                 if (BuildingsModel[4].amount[$scope.gameObjects.buildings[4]] == 0) {
                     $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[4].name + ' first');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[4].name);
                     $scope.btnDisabled.push(true);
                 }
                 else if ($scope.filteredTasks.length >= BuildingsModel[4].amount[$scope.gameObjects.buildings[4]]) {
@@ -2204,7 +2201,7 @@ app.directive('timer', ['$compile', function ($compile) {
             for (var i = 0; i < UpgradesModel.multiplier.length; i++) {
                 if (BuildingsModel[6].amount[$scope.gameObjects.buildings[6]] == 0) {
                     $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[6].name + ' first');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[6].name);
                     $scope.btnDisabled.push(true);
                 }
                 else if ($scope.filteredTasks.length >= BuildingsModel[6].amount[$scope.gameObjects.buildings[6]]) {

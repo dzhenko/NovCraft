@@ -35,7 +35,9 @@ module.exports = {
             var task = objects.tasks[i];
 
             if (task.time <= now) {
-                objects[task.type][task.indexToAddTo]++;
+                var newObjects = objects[task.type].slice();
+                newObjects[task.indexToAddTo]++;
+                objects[task.type] = newObjects;
 
                 // removing the task
                 objects.tasks.splice(i, 1);
@@ -74,10 +76,14 @@ module.exports = {
                 objects.minerals += comeback.cargo[0];
                 objects.gas += comeback.cargo[1];
 
+                var newShips = objects.ships.slice();
+
                 // ships back to bay
                 for (var s = 0; s < comeback.ships.length; s++) {
-                    objects.ships[s] += comeback.ships[s];
+                    newShips[s] += comeback.ships[s];
                 }
+
+                objects.ships = newShips;
 
                 // removing the task
                 objects.comebacks.splice(i, 1);

@@ -42,7 +42,7 @@ app.controller('ShipsCtrl',
             for (var i = 0; i < ShipsModel.time.length; i++) {
                 if (BuildingsModel[5].amount[$scope.gameObjects.buildings[5]] == 0) {
                     $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[5].name + ' first');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[5].name);
                     $scope.btnDisabled.push(true);
                 }
                 else if ($scope.filteredTasks.length >= BuildingsModel[5].amount[$scope.gameObjects.buildings[5]]) {

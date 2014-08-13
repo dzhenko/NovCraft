@@ -9,8 +9,6 @@ app.controller('ScanOverviewCtrl', function ($scope, $routeParams, $rootScope, G
 
         notifier.success('Scan was successful');
 
-        console.log(response);
-
         $scope.raceModel = RaceModel[identity.currentUser.race];
         $scope.enemy = response.targetObjects;
 

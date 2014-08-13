@@ -45,7 +45,6 @@ app.controller('SimulateAttackCtrl', function ($scope, $rootScope, GameRequests,
         };
 
         GameRequests.simulateAttack(attacker, defender, $scope.selectSimulatedTurns).then(function(response){
-            console.log(response);
             $scope.simulatedReport = response.report;
         },function(error) {
             console.log('error fetching simulated report ' + error);

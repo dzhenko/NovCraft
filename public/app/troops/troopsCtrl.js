@@ -41,7 +41,7 @@ app.controller('TroopsCtrl',
             for (var i = 0; i < TroopsModel.time.length; i++) {
                 if (BuildingsModel[4].amount[$scope.gameObjects.buildings[4]] == 0) {
                     $scope.btnClass.push('btn-danger');
-                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[4].name + ' first');
+                    $scope.btnText.push('Build ' + $scope.raceModel.buildings[4].name);
                     $scope.btnDisabled.push(true);
                 }
                 else if ($scope.filteredTasks.length >= BuildingsModel[4].amount[$scope.gameObjects.buildings[4]]) {
