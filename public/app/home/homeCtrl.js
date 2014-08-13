@@ -1,5 +1,4 @@
-app.controller('HomeCtrl', function($scope) {
+app.controller('HomeCtrl', function($scope, identity) {
     'use strict';
-
-    $scope.courses = [];
+    $scope.hideSignup = identity.isAuthenticated();
 });

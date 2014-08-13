@@ -119,6 +119,10 @@ app.config(function($routeProvider, $sceDelegateProvider) {
             controller: 'MessageCreateCtrl',
             resolve: routeUserChecks.authenticated
         })
+        .when('/about', {
+            templateUrl: '/partials/about/about',
+            controller: 'HomeCtrl'
+        })
         .when('/', {
             templateUrl: '/partials/home/home',
             controller: 'HomeCtrl'
@@ -1724,10 +1728,9 @@ app.directive('timer', ['$compile', function ($compile) {
                 console.log(error)
             })
         };
-    });;app.controller('HomeCtrl', function($scope) {
+    });;app.controller('HomeCtrl', function($scope, identity) {
     'use strict';
-
-    $scope.courses = [];
+    $scope.hideSignup = identity.isAuthenticated();
 });;app.controller('MapCtrl', function ($scope, GameRequests, identity, RaceModel) {
     'use strict';
 

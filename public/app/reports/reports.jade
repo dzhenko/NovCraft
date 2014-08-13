@@ -16,7 +16,9 @@
                 tbody
                     tr(ng-repeat="report in allReports | orderBy:'-created' track by $index")
                         td {{ report.enemy }}
-                        td {{ report.win }}
+                        td
+                            span.text-success.glyphicon.glyphicon-ok(ng-show="report.win")
+                            span.text-danger.glyphicon.glyphicon-remove(ng-hide="report.win")
                         td {{ report.created | date:'dd-MM HH:mm' }}
                         td
                             button.btn.btn-md.btn-success(ng-click="viewReport($index)" data-toggle="modal" data-target="#reportDetails")
@@ -49,7 +51,7 @@
                             span.lead.text-success(ng-show="selectedReport.stolen[0] > 0 || selectedReport.stolen[1] > 0") You steal
                             span.text-primary(ng-show="selectedReport.stolen[0] > 0")  {{ selectedReport.stolen[0] }} minerals
                             span.text-success(ng-show="selectedReport.stolen[1] > 0")  {{ selectedReport.stolen[1] }} gas
-                    p.lead.text-danger(ng-show="!selectedReport.win") You loose
+                    p.lead.text-danger(ng-show="!selectedReport.win") You lose
 
                     .panel(ng-class="attackerPanelClass")
                         .panel-heading

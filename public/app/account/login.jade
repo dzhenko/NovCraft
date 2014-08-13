@@ -5,6 +5,7 @@
             input.form-control(type="password", placeholder="Password", ng-model="user.password")
         button.btn.btn-primary(ng-click="login(user)") Login
         a.btn.btn-primary(href="#/signup") Sign Up
+        a.btn.btn-primary(href="#/about") About
 
     ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
         li.dropdown
@@ -16,6 +17,9 @@
                     a(href="#/profile") Profile
                 li
                     a(href="#/settings") Settings
+                li.divider
+                li
+                    a(href="#/about") About
                 li.divider
                 li
                     a(href="#" ng-click="logout()") Sign Out

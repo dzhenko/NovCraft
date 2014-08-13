@@ -119,6 +119,10 @@ app.config(function($routeProvider, $sceDelegateProvider) {
             controller: 'MessageCreateCtrl',
             resolve: routeUserChecks.authenticated
         })
+        .when('/about', {
+            templateUrl: '/partials/about/about',
+            controller: 'HomeCtrl'
+        })
         .when('/', {
             templateUrl: '/partials/home/home',
             controller: 'HomeCtrl'
