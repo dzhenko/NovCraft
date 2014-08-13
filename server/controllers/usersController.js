@@ -47,6 +47,8 @@ module.exports = {
             User.create(newUserData, function (err, user) {
                 if (err) {
                     console.log('Failed to register new user ' + err);
+                    res.status(400);
+                    res.send(false);
                     return;
                 }
 
