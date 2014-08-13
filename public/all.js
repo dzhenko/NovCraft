@@ -1687,7 +1687,7 @@ app.directive('timer', ['$compile', function ($compile) {
             $scope.btnText = [];
             $scope.btnDisabled = [];
 
-            for (var i = 0; i < BuildingsModel.length; i++) {
+            for (var i = 0; i < BuildingsModel[i].cost.length; i++) {
                 if ($scope.filteredTasks.length > 0) {
                     $scope.btnClass.push('btn-danger');
                     $scope.btnText.push('Building in progress');
