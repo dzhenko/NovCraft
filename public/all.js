@@ -1687,14 +1687,14 @@ app.directive('timer', ['$compile', function ($compile) {
             $scope.btnText = [];
             $scope.btnDisabled = [];
 
-            for (var i = 0; i < BuildingsModel[i].cost.length; i++) {
+            for (var i = 0; i < BuildingsModel.length; i++) {
                 if ($scope.filteredTasks.length > 0) {
                     $scope.btnClass.push('btn-danger');
                     $scope.btnText.push('Building in progress');
                     $scope.btnDisabled.push(true);
                     continue;
                 }
-                else if ($scope.gameObjects.buildings[i] == BuildingsModel.length - 1) {
+                else if ($scope.gameObjects.buildings[i] == BuildingsModel[i].cost.length - 1) {
                     $scope.btnClass.push('btn-success');
                     $scope.btnText.push('Max level');
                     $scope.btnDisabled.push(true);
