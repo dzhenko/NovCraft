@@ -22,7 +22,7 @@ app.controller('ReportsCtrl', function ($scope, GameRequests, identity, RaceMode
     };
 
     $scope.viewReport = function (index) {
-        $scope.selectedReport = $scope.allReports[index];
+        $scope.selectedReport = $scope.allReports[$scope.allReports.length - index - 1];
         $scope.attackerClass = $scope.selectedReport.own ? 'text-success' : 'text-danger';
         $scope.defenderClass = $scope.selectedReport.own ? 'text-danger' : 'text-success';
         $scope.attackerPanelClass = $scope.selectedReport.own ? 'panel-success' : 'panel-danger';

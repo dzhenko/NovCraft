@@ -1810,7 +1810,7 @@ app.directive('timer', ['$compile', function ($compile) {
     };
 
     $scope.viewMessage = function (index) {
-        $scope.selectedMessage = $scope.allMessages[index];
+        $scope.selectedMessage = $scope.allMessages[$scope.allMessages.length - index - 1];
     }
 });;app.controller('NavCtrl', function ($scope, identity) {
     'use strict';
@@ -1893,7 +1893,7 @@ app.directive('timer', ['$compile', function ($compile) {
     };
 
     $scope.viewReport = function (index) {
-        $scope.selectedReport = $scope.allReports[index];
+        $scope.selectedReport = $scope.allReports[$scope.allReports.length - index - 1];
         $scope.attackerClass = $scope.selectedReport.own ? 'text-success' : 'text-danger';
         $scope.defenderClass = $scope.selectedReport.own ? 'text-danger' : 'text-success';
         $scope.attackerPanelClass = $scope.selectedReport.own ? 'panel-success' : 'panel-danger';

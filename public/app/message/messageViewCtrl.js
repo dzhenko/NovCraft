@@ -19,6 +19,6 @@ app.controller('MessageViewCtrl', function ($scope, GameRequests, identity) {
     };
 
     $scope.viewMessage = function (index) {
-        $scope.selectedMessage = $scope.allMessages[index];
+        $scope.selectedMessage = $scope.allMessages[$scope.allMessages.length - index - 1];
     }
 });
