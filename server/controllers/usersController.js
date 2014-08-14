@@ -5,7 +5,8 @@ var encryption = require('../utilities/encryption'),
     mongoose = require('mongoose'),
     User = mongoose.model('User'),
     GameObjects = mongoose.model('GameObjects'),
-    initialUserObjects = require('../game/initialUserObjects');
+    initialUserObjects = require('../game/initialUserObjects'),
+    userObjectsHandler = require('../handlers/userObjectsHandler');
 
 function getUnusedCoordinatesForUser(otherUsers) {
     var invalidCoords = true;
@@ -122,16 +123,28 @@ module.exports = {
             userGameObjects.minerals = userGameObjects.minerals - costOfScan.minerals;
             userGameObjects.gas = userGameObjects.gas - costOfScan.gas;
 
-            GameObjects.findOne({owner: req.params.target}).select('minerals gas ships troops coordinates owner').exec(function(err, targetObjects) {
+            GameObjects.findOne({owner: req.params.target}).exec(function(err, targetObjects) {
                 if (err) {
                     console.log('Game objects could not be loaded ' + err);
                     return;
                 }
 
-                userGameObjects.save(function(){
-                    res.send({
-                        targetObjects : targetObjects,
-                        success : true
+                // sync call
+                userObjectsHandler.refreshUserGameObjects(userGameObjects);
+
+                targetObjects.save(function(){
+                    userGameObjects.save(function(){
+                        res.send({
+                            targetObjects : {
+                                minerals: targetObjects.minerals,
+                                gas: targetObjects.gas,
+                                ships: targetObjects.ships,
+                                troops: targetObjects.troops,
+                                coordinates: targetObjects.coordinates,
+                                owner: targetObjects.owner
+                            },
+                            success : true
+                        });
                     });
                 });
             });
