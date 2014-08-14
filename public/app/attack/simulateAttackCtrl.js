@@ -44,6 +44,10 @@ app.controller('SimulateAttackCtrl', function ($scope, $rootScope, GameRequests,
             airUpgrades: $scope.defenderAirUpgrades
         };
 
+        attacker.ships = [Math.max(attacker.ships[0],0), Math.max(attacker.ships[1],0), Math.max(attacker.ships[2],0), Math.max(attacker.ships[3],0)];
+        defender.ships = [Math.max(defender.troops[0],0), Math.max(defender.troops[1],0), Math.max(defender.troops[2],0)];
+        defender.ships = [Math.max(defender.ships[0],0), Math.max(defender.ships[1],0), Math.max(defender.ships[2],0), Math.max(defender.ships[3],0)];
+
         GameRequests.simulateAttack(attacker, defender, $scope.selectSimulatedTurns).then(function(response){
             $scope.simulatedReport = response.report;
         },function(error) {

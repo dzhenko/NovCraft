@@ -11,6 +11,8 @@ app.controller('AttackUserCtrl', function ($scope, $location, $routeParams, Ship
     });
 
     $scope.confirm = function () {
+        $scope.ships = [Math.max($scope.ships[0],0), Math.max($scope.ships[1],0), Math.max($scope.ships[2],0), Math.max($scope.ships[3],0)];
+
         $scope.confirmerText = 'Are you sure you want to send';
         for (var i = 0; i < $scope.ships.length; i++) {
             var shipAmmount = $scope.ships[i];

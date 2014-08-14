@@ -1559,6 +1559,8 @@ app.directive('timer', ['$compile', function ($compile) {
     });
 
     $scope.confirm = function () {
+        $scope.ships = [Math.max($scope.ships[0],0), Math.max($scope.ships[1],0), Math.max($scope.ships[2],0), Math.max($scope.ships[3],0)];
+
         $scope.confirmerText = 'Are you sure you want to send';
         for (var i = 0; i < $scope.ships.length; i++) {
             var shipAmmount = $scope.ships[i];
@@ -1631,6 +1633,10 @@ app.directive('timer', ['$compile', function ($compile) {
             ships: $scope.defenderShips,
             airUpgrades: $scope.defenderAirUpgrades
         };
+
+        attacker.ships = [Math.max(attacker.ships[0],0), Math.max(attacker.ships[1],0), Math.max(attacker.ships[2],0), Math.max(attacker.ships[3],0)];
+        defender.ships = [Math.max(defender.troops[0],0), Math.max(defender.troops[1],0), Math.max(defender.troops[2],0)];
+        defender.ships = [Math.max(defender.ships[0],0), Math.max(defender.ships[1],0), Math.max(defender.ships[2],0), Math.max(defender.ships[3],0)];
 
         GameRequests.simulateAttack(attacker, defender, $scope.selectSimulatedTurns).then(function(response){
             $scope.simulatedReport = response.report;

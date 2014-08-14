@@ -20,6 +20,8 @@ function handleAttack(attacker, defender, turns) {
         }
     };
 
+    
+
     for (var i = 0; i < turns; i++) {
         var attackerDamage = game.ships.attack[0] * game.upgrades[attacker.airUpgrades[0]] * attacker.ships[0] +
             game.ships.attack[1] * game.upgrades[attacker.airUpgrades[0]] * attacker.ships[1] +
